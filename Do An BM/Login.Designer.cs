@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.cb_pass = new System.Windows.Forms.CheckBox();
-            this.btnPhanQuyen = new System.Windows.Forms.Button();
             this.btnLogin = new System.Windows.Forms.Button();
             this.txtPass = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -54,17 +53,7 @@
             this.cb_pass.TabIndex = 82;
             this.cb_pass.Text = "Hiện mật khẩu";
             this.cb_pass.UseVisualStyleBackColor = true;
-            // 
-            // btnPhanQuyen
-            // 
-            this.btnPhanQuyen.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.btnPhanQuyen.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.btnPhanQuyen.Location = new System.Drawing.Point(250, 245);
-            this.btnPhanQuyen.Name = "btnPhanQuyen";
-            this.btnPhanQuyen.Size = new System.Drawing.Size(107, 28);
-            this.btnPhanQuyen.TabIndex = 80;
-            this.btnPhanQuyen.Text = "Phân Quyền";
-            this.btnPhanQuyen.UseVisualStyleBackColor = true;
+            this.cb_pass.Click += new System.EventHandler(this.cb_pass_CheckedChanged);
             // 
             // btnLogin
             // 
@@ -76,6 +65,7 @@
             this.btnLogin.TabIndex = 81;
             this.btnLogin.Text = "Login";
             this.btnLogin.UseVisualStyleBackColor = true;
+            this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
             // txtPass
             // 
@@ -192,7 +182,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 281);
             this.Controls.Add(this.cb_pass);
-            this.Controls.Add(this.btnPhanQuyen);
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.txtPass);
             this.Controls.Add(this.label6);
@@ -207,6 +196,7 @@
             this.Controls.Add(this.lblLogin);
             this.Name = "frmLogin";
             this.Text = "Login";
+            this.Load += new System.EventHandler(this.frmLogin_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -215,7 +205,6 @@
         #endregion
 
         private System.Windows.Forms.CheckBox cb_pass;
-        private System.Windows.Forms.Button btnPhanQuyen;
         private System.Windows.Forms.Button btnLogin;
         public System.Windows.Forms.TextBox txtPass;
         private System.Windows.Forms.Label label6;

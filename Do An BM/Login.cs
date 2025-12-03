@@ -32,7 +32,9 @@ namespace Do_An_BM
                 if (Database.Connect())
                 {
                     MessageBox.Show("Đăng nhập thành công");
-                    //new .Show();
+                    new frmPhanQuyenOracle().Show();
+                    new frmQuanLyKhachHang().Show();
+                    new frmRegisterKhachHang().Show();
                     //this.Hide();
                 }
             }
@@ -67,11 +69,11 @@ namespace Do_An_BM
 
         private void frmLogin_Load(object sender, EventArgs e)
         {
-            txtHost.Text = "26.71.28.188";
+            txtHost.Text = "26.85.209.147";
             txtPort.Text = "1521";
             txtSid.Text = "orcl";
-            txtUser.Text = "sys";
-            txtPass.Text = "sys";
+            txtUser.Text = "BM_USER";
+            txtPass.Text = "Secure123#";
         }
 
         private void btnPhanQuyen_Click(object sender, EventArgs e)
@@ -87,7 +89,7 @@ namespace Do_An_BM
             //// ConncetSYS() sẽ sử dụng User và Pass vừa gán
             //if (Database.ConncetSYS())
             //{
-            //    //new .Show();
+            //    new frmPhanQuyen().Show();
             //}
 
         }
