@@ -89,16 +89,34 @@ namespace Do_An_BM
                 lblMaDon.Text = $"Mã đơn: #{maDon}";
                 lblNgayDat.Text = $"Ngày đặt: {Convert.ToDateTime(row["NgayDat"]):dd/MM/yyyy HH:mm}";
                 lblKhachHang.Text = $"Khách hàng: {row["HoTenKH"]}";
-                lblTongTien.Text = $"Tổng tiền: {Convert.ToDecimal(row["TongTien"]):N0} đ";
-                lblPhiShip.Text = $"Phí ship: {Convert.ToDecimal(row["PhiShip"]):N0} đ";
-                lblThueVAT.Text = $"Thuế VAT: {Convert.ToDecimal(row["ThueVAT"])}%";
 
-                decimal tongTien = Convert.ToDecimal(row["TongTien"]);
+                // Trong CSDL, cột TongTien đang lưu tổng cộng (tiền hàng + ship + VAT)
+                // nên cần tách lại các thành phần để hiển thị đúng, tránh cộng/trừ sai.
+                decimal tongTienDb = Convert.ToDecimal(row["TongTien"]);   // tổng cộng đã lưu
                 decimal phiShip = Convert.ToDecimal(row["PhiShip"]);
-                decimal thueVAT = Convert.ToDecimal(row["ThueVAT"]);
-                decimal tongCong = tongTien + phiShip + (tongTien * thueVAT / 100);
+                decimal thueVATPercent = Convert.ToDecimal(row["ThueVAT"]); // đơn vị: %
 
-                lblTongCong.Text = $"Tổng cộng: {tongCong:N0} đ";
+                // Tách tiền hàng (chưa VAT, chưa ship) và tiền VAT từ tổng
+                decimal tienHang;
+                decimal tienVAT;
+
+                if (thueVATPercent > 0)
+                {
+                    // tongTienDb = tienHang * (1 + VAT%) + phiShip
+                    decimal heSo = 1 + (thueVATPercent / 100m);
+                    tienHang = Math.Round((tongTienDb - phiShip) / heSo, 0);
+                    tienVAT = tongTienDb - phiShip - tienHang;
+                }
+                else
+                {
+                    tienHang = tongTienDb - phiShip;
+                    tienVAT = 0;
+                }
+
+                lblTongTien.Text = $"Tiền hàng: {tienHang:N0} đ";
+                lblPhiShip.Text = $"Phí ship: {phiShip:N0} đ";
+                lblThueVAT.Text = $"Thuế VAT ({thueVATPercent}%): {tienVAT:N0} đ";
+                lblTongCong.Text = $"Tổng cộng: {tongTienDb:N0} đ";
                 lblTrangThai.Text = $"Trạng thái: {row["TenTT"]}";
 
                 // Thông tin thanh toán

@@ -238,6 +238,12 @@
     <EmbeddedResource Include="frmCheckout.resx">
       <DependentUpon>frmCheckout.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmDonHangDetail .resx">
+      <DependentUpon>frmDonHangDetail .cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPhanQuyen.resx">
+      <DependentUpon>frmPhanQuyen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmQuanLyKhachHang.resx">
       <DependentUpon>frmQuanLyKhachHang.cs</DependentUpon>
     </EmbeddedResource>

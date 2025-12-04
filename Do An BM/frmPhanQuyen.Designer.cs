@@ -21,6 +21,16 @@
             this.lblUserInfo = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabProcFunc = new System.Windows.Forms.TabPage();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnGrantExecToRole = new System.Windows.Forms.Button();
+            this.cboTargetRole = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.btnRevokeExecFromRole = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnGrantExecToUser = new System.Windows.Forms.Button();
+            this.cboTargetUser = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.btnRevokeExecFromUser = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnLoadObjects = new System.Windows.Forms.Button();
             this.cboObjectType = new System.Windows.Forms.ComboBox();
@@ -29,21 +39,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.cboObject = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.btnGrantExecToUser = new System.Windows.Forms.Button();
-            this.cboTargetUser = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.btnGrantExecToRole = new System.Windows.Forms.Button();
-            this.cboTargetRole = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
             this.tabTablePrivRole = new System.Windows.Forms.TabPage();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.btnLoadTables = new System.Windows.Forms.Button();
-            this.cboTableOwner = new System.Windows.Forms.ComboBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.cboTable = new System.Windows.Forms.ComboBox();
-            this.label7 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.btnGrantTableToRole = new System.Windows.Forms.Button();
             this.cbDelete = new System.Windows.Forms.CheckBox();
@@ -52,13 +48,14 @@
             this.cbSelect = new System.Windows.Forms.CheckBox();
             this.cboRoleForTable = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.btnRevokeTableFromRole = new System.Windows.Forms.Button();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.btnLoadTables = new System.Windows.Forms.Button();
+            this.cboTableOwner = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.cboTable = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.tabTablePrivUser = new System.Windows.Forms.TabPage();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.btnLoadTables2 = new System.Windows.Forms.Button();
-            this.cboTableOwner2 = new System.Windows.Forms.ComboBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.cboTable2 = new System.Windows.Forms.ComboBox();
-            this.label10 = new System.Windows.Forms.Label();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.btnGrantTableToUser = new System.Windows.Forms.Button();
             this.cbDelete2 = new System.Windows.Forms.CheckBox();
@@ -67,6 +64,13 @@
             this.cbSelect2 = new System.Windows.Forms.CheckBox();
             this.cboUserForTable = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
+            this.btnRevokeTableFromUser = new System.Windows.Forms.Button();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.btnLoadTables2 = new System.Windows.Forms.Button();
+            this.cboTableOwner2 = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.cboTable2 = new System.Windows.Forms.ComboBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.tabViewPriv = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
@@ -74,23 +78,25 @@
             this.dgvUserPrivileges = new System.Windows.Forms.DataGridView();
             this.cboViewUser = new System.Windows.Forms.ComboBox();
             this.label12 = new System.Windows.Forms.Label();
+            this.btnRevokeAllFromUser = new System.Windows.Forms.Button();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.btnRefreshRolePriv = new System.Windows.Forms.Button();
             this.dgvRolePrivileges = new System.Windows.Forms.DataGridView();
             this.cboViewRole = new System.Windows.Forms.ComboBox();
             this.label13 = new System.Windows.Forms.Label();
+            this.btnRevokeAllFromRole = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabProcFunc.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.tabTablePrivRole.SuspendLayout();
-            this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.tabTablePrivUser.SuspendLayout();
-            this.groupBox6.SuspendLayout();
             this.groupBox7.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.tabViewPriv.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -121,7 +127,7 @@
             this.lblUserInfo.ForeColor = System.Drawing.Color.Blue;
             this.lblUserInfo.Location = new System.Drawing.Point(12, 50);
             this.lblUserInfo.Name = "lblUserInfo";
-            this.lblUserInfo.Size = new System.Drawing.Size(193, 17);
+            this.lblUserInfo.Size = new System.Drawing.Size(196, 17);
             this.lblUserInfo.TabIndex = 1;
             this.lblUserInfo.Text = "Đăng nhập với: BM_USER";
             // 
@@ -150,6 +156,120 @@
             this.tabProcFunc.TabIndex = 0;
             this.tabProcFunc.Text = "Phân quyền PROC/FUNC/TRIGGER";
             this.tabProcFunc.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.btnGrantExecToRole);
+            this.groupBox3.Controls.Add(this.cboTargetRole);
+            this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Controls.Add(this.btnRevokeExecFromRole);
+            this.groupBox3.Location = new System.Drawing.Point(600, 180);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(550, 161);
+            this.groupBox3.TabIndex = 2;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "3. Phân quyền EXECUTE cho ROLE";
+            // 
+            // btnGrantExecToRole
+            // 
+            this.btnGrantExecToRole.BackColor = System.Drawing.Color.Green;
+            this.btnGrantExecToRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            this.btnGrantExecToRole.ForeColor = System.Drawing.Color.White;
+            this.btnGrantExecToRole.Location = new System.Drawing.Point(350, 60);
+            this.btnGrantExecToRole.Name = "btnGrantExecToRole";
+            this.btnGrantExecToRole.Size = new System.Drawing.Size(180, 40);
+            this.btnGrantExecToRole.TabIndex = 2;
+            this.btnGrantExecToRole.Text = "GRANT EXECUTE";
+            this.btnGrantExecToRole.UseVisualStyleBackColor = false;
+            this.btnGrantExecToRole.Click += new System.EventHandler(this.btnGrantExecToRole_Click);
+            // 
+            // cboTargetRole
+            // 
+            this.cboTargetRole.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboTargetRole.FormattingEnabled = true;
+            this.cboTargetRole.Location = new System.Drawing.Point(150, 40);
+            this.cboTargetRole.Name = "cboTargetRole";
+            this.cboTargetRole.Size = new System.Drawing.Size(250, 24);
+            this.cboTargetRole.TabIndex = 1;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(25, 43);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(87, 17);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "Chọn ROLE:";
+            // 
+            // btnRevokeExecFromRole
+            // 
+            this.btnRevokeExecFromRole.BackColor = System.Drawing.Color.Crimson;
+            this.btnRevokeExecFromRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            this.btnRevokeExecFromRole.ForeColor = System.Drawing.Color.White;
+            this.btnRevokeExecFromRole.Location = new System.Drawing.Point(350, 110);
+            this.btnRevokeExecFromRole.Name = "btnRevokeExecFromRole";
+            this.btnRevokeExecFromRole.Size = new System.Drawing.Size(180, 40);
+            this.btnRevokeExecFromRole.TabIndex = 3;
+            this.btnRevokeExecFromRole.Text = "REVOKE EXECUTE";
+            this.btnRevokeExecFromRole.UseVisualStyleBackColor = false;
+            this.btnRevokeExecFromRole.Click += new System.EventHandler(this.btnRevokeExecFromRole_Click);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.btnGrantExecToUser);
+            this.groupBox2.Controls.Add(this.cboTargetUser);
+            this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Controls.Add(this.btnRevokeExecFromUser);
+            this.groupBox2.Location = new System.Drawing.Point(15, 180);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(550, 161);
+            this.groupBox2.TabIndex = 1;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "2. Phân quyền EXECUTE cho USER";
+            // 
+            // btnGrantExecToUser
+            // 
+            this.btnGrantExecToUser.BackColor = System.Drawing.Color.Green;
+            this.btnGrantExecToUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            this.btnGrantExecToUser.ForeColor = System.Drawing.Color.White;
+            this.btnGrantExecToUser.Location = new System.Drawing.Point(350, 60);
+            this.btnGrantExecToUser.Name = "btnGrantExecToUser";
+            this.btnGrantExecToUser.Size = new System.Drawing.Size(180, 40);
+            this.btnGrantExecToUser.TabIndex = 2;
+            this.btnGrantExecToUser.Text = "GRANT EXECUTE";
+            this.btnGrantExecToUser.UseVisualStyleBackColor = false;
+            this.btnGrantExecToUser.Click += new System.EventHandler(this.btnGrantExecToUser_Click);
+            // 
+            // cboTargetUser
+            // 
+            this.cboTargetUser.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboTargetUser.FormattingEnabled = true;
+            this.cboTargetUser.Location = new System.Drawing.Point(150, 40);
+            this.cboTargetUser.Name = "cboTargetUser";
+            this.cboTargetUser.Size = new System.Drawing.Size(250, 24);
+            this.cboTargetUser.TabIndex = 1;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(25, 43);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(87, 17);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Chọn USER:";
+            // 
+            // btnRevokeExecFromUser
+            // 
+            this.btnRevokeExecFromUser.BackColor = System.Drawing.Color.Crimson;
+            this.btnRevokeExecFromUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            this.btnRevokeExecFromUser.ForeColor = System.Drawing.Color.White;
+            this.btnRevokeExecFromUser.Location = new System.Drawing.Point(350, 110);
+            this.btnRevokeExecFromUser.Name = "btnRevokeExecFromUser";
+            this.btnRevokeExecFromUser.Size = new System.Drawing.Size(180, 40);
+            this.btnRevokeExecFromUser.TabIndex = 3;
+            this.btnRevokeExecFromUser.Text = "REVOKE EXECUTE";
+            this.btnRevokeExecFromUser.UseVisualStyleBackColor = false;
+            this.btnRevokeExecFromUser.Click += new System.EventHandler(this.btnRevokeExecFromUser_Click);
             // 
             // groupBox1
             // 
@@ -193,7 +313,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(25, 98);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(87, 17);
+            this.label3.Size = new System.Drawing.Size(84, 17);
             this.label3.TabIndex = 4;
             this.label3.Text = "Loại Object:";
             // 
@@ -211,7 +331,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(25, 43);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(91, 17);
+            this.label2.Size = new System.Drawing.Size(87, 17);
             this.label2.TabIndex = 2;
             this.label2.Text = "Owner/User:";
             // 
@@ -229,95 +349,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(440, 43);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(100, 17);
+            this.label1.Size = new System.Drawing.Size(155, 17);
             this.label1.TabIndex = 0;
             this.label1.Text = "Tên Proc/Func/Trigger:";
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.btnGrantExecToUser);
-            this.groupBox2.Controls.Add(this.cboTargetUser);
-            this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Location = new System.Drawing.Point(15, 180);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(550, 120);
-            this.groupBox2.TabIndex = 1;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "2. Phân quyền EXECUTE cho USER";
-            // 
-            // btnGrantExecToUser
-            // 
-            this.btnGrantExecToUser.BackColor = System.Drawing.Color.Green;
-            this.btnGrantExecToUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
-            this.btnGrantExecToUser.ForeColor = System.Drawing.Color.White;
-            this.btnGrantExecToUser.Location = new System.Drawing.Point(350, 60);
-            this.btnGrantExecToUser.Name = "btnGrantExecToUser";
-            this.btnGrantExecToUser.Size = new System.Drawing.Size(180, 40);
-            this.btnGrantExecToUser.TabIndex = 2;
-            this.btnGrantExecToUser.Text = "GRANT EXECUTE";
-            this.btnGrantExecToUser.UseVisualStyleBackColor = false;
-            this.btnGrantExecToUser.Click += new System.EventHandler(this.btnGrantExecToUser_Click);
-            // 
-            // cboTargetUser
-            // 
-            this.cboTargetUser.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboTargetUser.FormattingEnabled = true;
-            this.cboTargetUser.Location = new System.Drawing.Point(150, 40);
-            this.cboTargetUser.Name = "cboTargetUser";
-            this.cboTargetUser.Size = new System.Drawing.Size(250, 24);
-            this.cboTargetUser.TabIndex = 1;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(25, 43);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(86, 17);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Chọn USER:";
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.btnGrantExecToRole);
-            this.groupBox3.Controls.Add(this.cboTargetRole);
-            this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Location = new System.Drawing.Point(600, 180);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(550, 120);
-            this.groupBox3.TabIndex = 2;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "3. Phân quyền EXECUTE cho ROLE";
-            // 
-            // btnGrantExecToRole
-            // 
-            this.btnGrantExecToRole.BackColor = System.Drawing.Color.Green;
-            this.btnGrantExecToRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
-            this.btnGrantExecToRole.ForeColor = System.Drawing.Color.White;
-            this.btnGrantExecToRole.Location = new System.Drawing.Point(350, 60);
-            this.btnGrantExecToRole.Name = "btnGrantExecToRole";
-            this.btnGrantExecToRole.Size = new System.Drawing.Size(180, 40);
-            this.btnGrantExecToRole.TabIndex = 2;
-            this.btnGrantExecToRole.Text = "GRANT EXECUTE";
-            this.btnGrantExecToRole.UseVisualStyleBackColor = false;
-            this.btnGrantExecToRole.Click += new System.EventHandler(this.btnGrantExecToRole_Click);
-            // 
-            // cboTargetRole
-            // 
-            this.cboTargetRole.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboTargetRole.FormattingEnabled = true;
-            this.cboTargetRole.Location = new System.Drawing.Point(150, 40);
-            this.cboTargetRole.Name = "cboTargetRole";
-            this.cboTargetRole.Size = new System.Drawing.Size(250, 24);
-            this.cboTargetRole.TabIndex = 1;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(25, 43);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(85, 17);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "Chọn ROLE:";
             // 
             // tabTablePrivRole
             // 
@@ -330,6 +364,107 @@
             this.tabTablePrivRole.TabIndex = 1;
             this.tabTablePrivRole.Text = "Phân quyền TABLE cho ROLE";
             this.tabTablePrivRole.UseVisualStyleBackColor = true;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.btnGrantTableToRole);
+            this.groupBox5.Controls.Add(this.cbDelete);
+            this.groupBox5.Controls.Add(this.cbUpdate);
+            this.groupBox5.Controls.Add(this.cbInsert);
+            this.groupBox5.Controls.Add(this.cbSelect);
+            this.groupBox5.Controls.Add(this.cboRoleForTable);
+            this.groupBox5.Controls.Add(this.label8);
+            this.groupBox5.Controls.Add(this.btnRevokeTableFromRole);
+            this.groupBox5.Location = new System.Drawing.Point(15, 150);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(1135, 180);
+            this.groupBox5.TabIndex = 1;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "2. Chọn ROLE và quyền cần GRANT";
+            // 
+            // btnGrantTableToRole
+            // 
+            this.btnGrantTableToRole.BackColor = System.Drawing.Color.Green;
+            this.btnGrantTableToRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            this.btnGrantTableToRole.ForeColor = System.Drawing.Color.White;
+            this.btnGrantTableToRole.Location = new System.Drawing.Point(565, 100);
+            this.btnGrantTableToRole.Name = "btnGrantTableToRole";
+            this.btnGrantTableToRole.Size = new System.Drawing.Size(200, 50);
+            this.btnGrantTableToRole.TabIndex = 6;
+            this.btnGrantTableToRole.Text = "GRANT cho ROLE";
+            this.btnGrantTableToRole.UseVisualStyleBackColor = false;
+            this.btnGrantTableToRole.Click += new System.EventHandler(this.btnGrantTableToRole_Click);
+            // 
+            // cbDelete
+            // 
+            this.cbDelete.AutoSize = true;
+            this.cbDelete.Location = new System.Drawing.Point(565, 65);
+            this.cbDelete.Name = "cbDelete";
+            this.cbDelete.Size = new System.Drawing.Size(81, 21);
+            this.cbDelete.TabIndex = 5;
+            this.cbDelete.Text = "DELETE";
+            this.cbDelete.UseVisualStyleBackColor = true;
+            // 
+            // cbUpdate
+            // 
+            this.cbUpdate.AutoSize = true;
+            this.cbUpdate.Location = new System.Drawing.Point(440, 65);
+            this.cbUpdate.Name = "cbUpdate";
+            this.cbUpdate.Size = new System.Drawing.Size(83, 21);
+            this.cbUpdate.TabIndex = 4;
+            this.cbUpdate.Text = "UPDATE";
+            this.cbUpdate.UseVisualStyleBackColor = true;
+            // 
+            // cbInsert
+            // 
+            this.cbInsert.AutoSize = true;
+            this.cbInsert.Location = new System.Drawing.Point(320, 65);
+            this.cbInsert.Name = "cbInsert";
+            this.cbInsert.Size = new System.Drawing.Size(77, 21);
+            this.cbInsert.TabIndex = 3;
+            this.cbInsert.Text = "INSERT";
+            this.cbInsert.UseVisualStyleBackColor = true;
+            // 
+            // cbSelect
+            // 
+            this.cbSelect.AutoSize = true;
+            this.cbSelect.Location = new System.Drawing.Point(200, 65);
+            this.cbSelect.Name = "cbSelect";
+            this.cbSelect.Size = new System.Drawing.Size(80, 21);
+            this.cbSelect.TabIndex = 2;
+            this.cbSelect.Text = "SELECT";
+            this.cbSelect.UseVisualStyleBackColor = true;
+            // 
+            // cboRoleForTable
+            // 
+            this.cboRoleForTable.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboRoleForTable.FormattingEnabled = true;
+            this.cboRoleForTable.Location = new System.Drawing.Point(150, 30);
+            this.cboRoleForTable.Name = "cboRoleForTable";
+            this.cboRoleForTable.Size = new System.Drawing.Size(250, 24);
+            this.cboRoleForTable.TabIndex = 1;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(25, 33);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(87, 17);
+            this.label8.TabIndex = 0;
+            this.label8.Text = "Chọn ROLE:";
+            // 
+            // btnRevokeTableFromRole
+            // 
+            this.btnRevokeTableFromRole.BackColor = System.Drawing.Color.Crimson;
+            this.btnRevokeTableFromRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            this.btnRevokeTableFromRole.ForeColor = System.Drawing.Color.White;
+            this.btnRevokeTableFromRole.Location = new System.Drawing.Point(775, 100);
+            this.btnRevokeTableFromRole.Name = "btnRevokeTableFromRole";
+            this.btnRevokeTableFromRole.Size = new System.Drawing.Size(200, 50);
+            this.btnRevokeTableFromRole.TabIndex = 7;
+            this.btnRevokeTableFromRole.Text = "REVOKE từ ROLE";
+            this.btnRevokeTableFromRole.UseVisualStyleBackColor = false;
+            this.btnRevokeTableFromRole.Click += new System.EventHandler(this.btnRevokeTableFromRole_Click);
             // 
             // groupBox4
             // 
@@ -371,7 +506,7 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(25, 43);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(91, 17);
+            this.label6.Size = new System.Drawing.Size(87, 17);
             this.label6.TabIndex = 2;
             this.label6.Text = "Owner/User:";
             // 
@@ -389,96 +524,9 @@
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(440, 43);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(105, 17);
+            this.label7.Size = new System.Drawing.Size(123, 17);
             this.label7.TabIndex = 0;
             this.label7.Text = "Tên TABLE/VIEW:";
-            // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.btnGrantTableToRole);
-            this.groupBox5.Controls.Add(this.cbDelete);
-            this.groupBox5.Controls.Add(this.cbUpdate);
-            this.groupBox5.Controls.Add(this.cbInsert);
-            this.groupBox5.Controls.Add(this.cbSelect);
-            this.groupBox5.Controls.Add(this.cboRoleForTable);
-            this.groupBox5.Controls.Add(this.label8);
-            this.groupBox5.Location = new System.Drawing.Point(15, 150);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(1135, 180);
-            this.groupBox5.TabIndex = 1;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "2. Chọn ROLE và quyền cần GRANT";
-            // 
-            // btnGrantTableToRole
-            // 
-            this.btnGrantTableToRole.BackColor = System.Drawing.Color.Green;
-            this.btnGrantTableToRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
-            this.btnGrantTableToRole.ForeColor = System.Drawing.Color.White;
-            this.btnGrantTableToRole.Location = new System.Drawing.Point(565, 100);
-            this.btnGrantTableToRole.Name = "btnGrantTableToRole";
-            this.btnGrantTableToRole.Size = new System.Drawing.Size(200, 50);
-            this.btnGrantTableToRole.TabIndex = 6;
-            this.btnGrantTableToRole.Text = "GRANT cho ROLE";
-            this.btnGrantTableToRole.UseVisualStyleBackColor = false;
-            this.btnGrantTableToRole.Click += new System.EventHandler(this.btnGrantTableToRole_Click);
-            // 
-            // cbDelete
-            // 
-            this.cbDelete.AutoSize = true;
-            this.cbDelete.Location = new System.Drawing.Point(565, 65);
-            this.cbDelete.Name = "cbDelete";
-            this.cbDelete.Size = new System.Drawing.Size(85, 21);
-            this.cbDelete.TabIndex = 5;
-            this.cbDelete.Text = "DELETE";
-            this.cbDelete.UseVisualStyleBackColor = true;
-            // 
-            // cbUpdate
-            // 
-            this.cbUpdate.AutoSize = true;
-            this.cbUpdate.Location = new System.Drawing.Point(440, 65);
-            this.cbUpdate.Name = "cbUpdate";
-            this.cbUpdate.Size = new System.Drawing.Size(87, 21);
-            this.cbUpdate.TabIndex = 4;
-            this.cbUpdate.Text = "UPDATE";
-            this.cbUpdate.UseVisualStyleBackColor = true;
-            // 
-            // cbInsert
-            // 
-            this.cbInsert.AutoSize = true;
-            this.cbInsert.Location = new System.Drawing.Point(320, 65);
-            this.cbInsert.Name = "cbInsert";
-            this.cbInsert.Size = new System.Drawing.Size(80, 21);
-            this.cbInsert.TabIndex = 3;
-            this.cbInsert.Text = "INSERT";
-            this.cbInsert.UseVisualStyleBackColor = true;
-            // 
-            // cbSelect
-            // 
-            this.cbSelect.AutoSize = true;
-            this.cbSelect.Location = new System.Drawing.Point(200, 65);
-            this.cbSelect.Name = "cbSelect";
-            this.cbSelect.Size = new System.Drawing.Size(84, 21);
-            this.cbSelect.TabIndex = 2;
-            this.cbSelect.Text = "SELECT";
-            this.cbSelect.UseVisualStyleBackColor = true;
-            // 
-            // cboRoleForTable
-            // 
-            this.cboRoleForTable.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboRoleForTable.FormattingEnabled = true;
-            this.cboRoleForTable.Location = new System.Drawing.Point(150, 30);
-            this.cboRoleForTable.Name = "cboRoleForTable";
-            this.cboRoleForTable.Size = new System.Drawing.Size(250, 24);
-            this.cboRoleForTable.TabIndex = 1;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(25, 33);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(85, 17);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "Chọn ROLE:";
             // 
             // tabTablePrivUser
             // 
@@ -490,6 +538,107 @@
             this.tabTablePrivUser.TabIndex = 2;
             this.tabTablePrivUser.Text = "Phân quyền TABLE cho USER";
             this.tabTablePrivUser.UseVisualStyleBackColor = true;
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.btnGrantTableToUser);
+            this.groupBox7.Controls.Add(this.cbDelete2);
+            this.groupBox7.Controls.Add(this.cbUpdate2);
+            this.groupBox7.Controls.Add(this.cbInsert2);
+            this.groupBox7.Controls.Add(this.cbSelect2);
+            this.groupBox7.Controls.Add(this.cboUserForTable);
+            this.groupBox7.Controls.Add(this.label11);
+            this.groupBox7.Controls.Add(this.btnRevokeTableFromUser);
+            this.groupBox7.Location = new System.Drawing.Point(15, 150);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(1135, 180);
+            this.groupBox7.TabIndex = 2;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "2. Chọn USER và quyền cần GRANT";
+            // 
+            // btnGrantTableToUser
+            // 
+            this.btnGrantTableToUser.BackColor = System.Drawing.Color.Green;
+            this.btnGrantTableToUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            this.btnGrantTableToUser.ForeColor = System.Drawing.Color.White;
+            this.btnGrantTableToUser.Location = new System.Drawing.Point(565, 100);
+            this.btnGrantTableToUser.Name = "btnGrantTableToUser";
+            this.btnGrantTableToUser.Size = new System.Drawing.Size(200, 50);
+            this.btnGrantTableToUser.TabIndex = 6;
+            this.btnGrantTableToUser.Text = "GRANT cho USER";
+            this.btnGrantTableToUser.UseVisualStyleBackColor = false;
+            this.btnGrantTableToUser.Click += new System.EventHandler(this.btnGrantTableToUser_Click);
+            // 
+            // cbDelete2
+            // 
+            this.cbDelete2.AutoSize = true;
+            this.cbDelete2.Location = new System.Drawing.Point(565, 65);
+            this.cbDelete2.Name = "cbDelete2";
+            this.cbDelete2.Size = new System.Drawing.Size(81, 21);
+            this.cbDelete2.TabIndex = 5;
+            this.cbDelete2.Text = "DELETE";
+            this.cbDelete2.UseVisualStyleBackColor = true;
+            // 
+            // cbUpdate2
+            // 
+            this.cbUpdate2.AutoSize = true;
+            this.cbUpdate2.Location = new System.Drawing.Point(440, 65);
+            this.cbUpdate2.Name = "cbUpdate2";
+            this.cbUpdate2.Size = new System.Drawing.Size(83, 21);
+            this.cbUpdate2.TabIndex = 4;
+            this.cbUpdate2.Text = "UPDATE";
+            this.cbUpdate2.UseVisualStyleBackColor = true;
+            // 
+            // cbInsert2
+            // 
+            this.cbInsert2.AutoSize = true;
+            this.cbInsert2.Location = new System.Drawing.Point(320, 65);
+            this.cbInsert2.Name = "cbInsert2";
+            this.cbInsert2.Size = new System.Drawing.Size(77, 21);
+            this.cbInsert2.TabIndex = 3;
+            this.cbInsert2.Text = "INSERT";
+            this.cbInsert2.UseVisualStyleBackColor = true;
+            // 
+            // cbSelect2
+            // 
+            this.cbSelect2.AutoSize = true;
+            this.cbSelect2.Location = new System.Drawing.Point(200, 65);
+            this.cbSelect2.Name = "cbSelect2";
+            this.cbSelect2.Size = new System.Drawing.Size(80, 21);
+            this.cbSelect2.TabIndex = 2;
+            this.cbSelect2.Text = "SELECT";
+            this.cbSelect2.UseVisualStyleBackColor = true;
+            // 
+            // cboUserForTable
+            // 
+            this.cboUserForTable.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboUserForTable.FormattingEnabled = true;
+            this.cboUserForTable.Location = new System.Drawing.Point(150, 30);
+            this.cboUserForTable.Name = "cboUserForTable";
+            this.cboUserForTable.Size = new System.Drawing.Size(250, 24);
+            this.cboUserForTable.TabIndex = 1;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(25, 33);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(87, 17);
+            this.label11.TabIndex = 0;
+            this.label11.Text = "Chọn USER:";
+            // 
+            // btnRevokeTableFromUser
+            // 
+            this.btnRevokeTableFromUser.BackColor = System.Drawing.Color.Crimson;
+            this.btnRevokeTableFromUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            this.btnRevokeTableFromUser.ForeColor = System.Drawing.Color.White;
+            this.btnRevokeTableFromUser.Location = new System.Drawing.Point(775, 100);
+            this.btnRevokeTableFromUser.Name = "btnRevokeTableFromUser";
+            this.btnRevokeTableFromUser.Size = new System.Drawing.Size(200, 50);
+            this.btnRevokeTableFromUser.TabIndex = 7;
+            this.btnRevokeTableFromUser.Text = "REVOKE từ USER";
+            this.btnRevokeTableFromUser.UseVisualStyleBackColor = false;
+            this.btnRevokeTableFromUser.Click += new System.EventHandler(this.btnRevokeTableFromUser_Click);
             // 
             // groupBox6
             // 
@@ -531,7 +680,7 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(25, 43);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(91, 17);
+            this.label9.Size = new System.Drawing.Size(87, 17);
             this.label9.TabIndex = 2;
             this.label9.Text = "Owner/User:";
             // 
@@ -549,96 +698,9 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(440, 43);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(105, 17);
+            this.label10.Size = new System.Drawing.Size(123, 17);
             this.label10.TabIndex = 0;
             this.label10.Text = "Tên TABLE/VIEW:";
-            // 
-            // groupBox7
-            // 
-            this.groupBox7.Controls.Add(this.btnGrantTableToUser);
-            this.groupBox7.Controls.Add(this.cbDelete2);
-            this.groupBox7.Controls.Add(this.cbUpdate2);
-            this.groupBox7.Controls.Add(this.cbInsert2);
-            this.groupBox7.Controls.Add(this.cbSelect2);
-            this.groupBox7.Controls.Add(this.cboUserForTable);
-            this.groupBox7.Controls.Add(this.label11);
-            this.groupBox7.Location = new System.Drawing.Point(15, 150);
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(1135, 180);
-            this.groupBox7.TabIndex = 2;
-            this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "2. Chọn USER và quyền cần GRANT";
-            // 
-            // btnGrantTableToUser
-            // 
-            this.btnGrantTableToUser.BackColor = System.Drawing.Color.Green;
-            this.btnGrantTableToUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
-            this.btnGrantTableToUser.ForeColor = System.Drawing.Color.White;
-            this.btnGrantTableToUser.Location = new System.Drawing.Point(565, 100);
-            this.btnGrantTableToUser.Name = "btnGrantTableToUser";
-            this.btnGrantTableToUser.Size = new System.Drawing.Size(200, 50);
-            this.btnGrantTableToUser.TabIndex = 6;
-            this.btnGrantTableToUser.Text = "GRANT cho USER";
-            this.btnGrantTableToUser.UseVisualStyleBackColor = false;
-            this.btnGrantTableToUser.Click += new System.EventHandler(this.btnGrantTableToUser_Click);
-            // 
-            // cbDelete2
-            // 
-            this.cbDelete2.AutoSize = true;
-            this.cbDelete2.Location = new System.Drawing.Point(565, 65);
-            this.cbDelete2.Name = "cbDelete2";
-            this.cbDelete2.Size = new System.Drawing.Size(85, 21);
-            this.cbDelete2.TabIndex = 5;
-            this.cbDelete2.Text = "DELETE";
-            this.cbDelete2.UseVisualStyleBackColor = true;
-            // 
-            // cbUpdate2
-            // 
-            this.cbUpdate2.AutoSize = true;
-            this.cbUpdate2.Location = new System.Drawing.Point(440, 65);
-            this.cbUpdate2.Name = "cbUpdate2";
-            this.cbUpdate2.Size = new System.Drawing.Size(87, 21);
-            this.cbUpdate2.TabIndex = 4;
-            this.cbUpdate2.Text = "UPDATE";
-            this.cbUpdate2.UseVisualStyleBackColor = true;
-            // 
-            // cbInsert2
-            // 
-            this.cbInsert2.AutoSize = true;
-            this.cbInsert2.Location = new System.Drawing.Point(320, 65);
-            this.cbInsert2.Name = "cbInsert2";
-            this.cbInsert2.Size = new System.Drawing.Size(80, 21);
-            this.cbInsert2.TabIndex = 3;
-            this.cbInsert2.Text = "INSERT";
-            this.cbInsert2.UseVisualStyleBackColor = true;
-            // 
-            // cbSelect2
-            // 
-            this.cbSelect2.AutoSize = true;
-            this.cbSelect2.Location = new System.Drawing.Point(200, 65);
-            this.cbSelect2.Name = "cbSelect2";
-            this.cbSelect2.Size = new System.Drawing.Size(84, 21);
-            this.cbSelect2.TabIndex = 2;
-            this.cbSelect2.Text = "SELECT";
-            this.cbSelect2.UseVisualStyleBackColor = true;
-            // 
-            // cboUserForTable
-            // 
-            this.cboUserForTable.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboUserForTable.FormattingEnabled = true;
-            this.cboUserForTable.Location = new System.Drawing.Point(150, 30);
-            this.cboUserForTable.Name = "cboUserForTable";
-            this.cboUserForTable.Size = new System.Drawing.Size(250, 24);
-            this.cboUserForTable.TabIndex = 1;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(25, 33);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(86, 17);
-            this.label11.TabIndex = 0;
-            this.label11.Text = "Chọn USER:";
             // 
             // tabViewPriv
             // 
@@ -673,6 +735,7 @@
             this.groupBox8.Controls.Add(this.dgvUserPrivileges);
             this.groupBox8.Controls.Add(this.cboViewUser);
             this.groupBox8.Controls.Add(this.label12);
+            this.groupBox8.Controls.Add(this.btnRevokeAllFromUser);
             this.groupBox8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox8.Location = new System.Drawing.Point(0, 0);
             this.groupBox8.Name = "groupBox8";
@@ -717,9 +780,22 @@
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(15, 36);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(86, 17);
+            this.label12.Size = new System.Drawing.Size(87, 17);
             this.label12.TabIndex = 0;
             this.label12.Text = "Chọn USER:";
+            // 
+            // btnRevokeAllFromUser
+            // 
+            this.btnRevokeAllFromUser.BackColor = System.Drawing.Color.DarkRed;
+            this.btnRevokeAllFromUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
+            this.btnRevokeAllFromUser.ForeColor = System.Drawing.Color.White;
+            this.btnRevokeAllFromUser.Location = new System.Drawing.Point(15, 480);
+            this.btnRevokeAllFromUser.Name = "btnRevokeAllFromUser";
+            this.btnRevokeAllFromUser.Size = new System.Drawing.Size(550, 35);
+            this.btnRevokeAllFromUser.TabIndex = 4;
+            this.btnRevokeAllFromUser.Text = "THU HỒI TẤT CẢ QUYỀN";
+            this.btnRevokeAllFromUser.UseVisualStyleBackColor = false;
+            this.btnRevokeAllFromUser.Click += new System.EventHandler(this.btnRevokeAllFromUser_Click);
             // 
             // groupBox9
             // 
@@ -727,6 +803,7 @@
             this.groupBox9.Controls.Add(this.dgvRolePrivileges);
             this.groupBox9.Controls.Add(this.cboViewRole);
             this.groupBox9.Controls.Add(this.label13);
+            this.groupBox9.Controls.Add(this.btnRevokeAllFromRole);
             this.groupBox9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox9.Location = new System.Drawing.Point(0, 0);
             this.groupBox9.Name = "groupBox9";
@@ -771,9 +848,22 @@
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(15, 36);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(85, 17);
+            this.label13.Size = new System.Drawing.Size(87, 17);
             this.label13.TabIndex = 0;
             this.label13.Text = "Chọn ROLE:";
+            // 
+            // btnRevokeAllFromRole
+            // 
+            this.btnRevokeAllFromRole.BackColor = System.Drawing.Color.DarkRed;
+            this.btnRevokeAllFromRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
+            this.btnRevokeAllFromRole.ForeColor = System.Drawing.Color.White;
+            this.btnRevokeAllFromRole.Location = new System.Drawing.Point(15, 480);
+            this.btnRevokeAllFromRole.Name = "btnRevokeAllFromRole";
+            this.btnRevokeAllFromRole.Size = new System.Drawing.Size(555, 35);
+            this.btnRevokeAllFromRole.TabIndex = 4;
+            this.btnRevokeAllFromRole.Text = "THU HỒI TẤT CẢ QUYỀN";
+            this.btnRevokeAllFromRole.UseVisualStyleBackColor = false;
+            this.btnRevokeAllFromRole.Click += new System.EventHandler(this.btnRevokeAllFromRole_Click);
             // 
             // btnClose
             // 
@@ -803,22 +893,22 @@
             this.Load += new System.EventHandler(this.frmPhanQuyenOracle_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabProcFunc.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.tabTablePrivRole.ResumeLayout(false);
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.tabTablePrivUser.ResumeLayout(false);
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             this.tabViewPriv.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -832,6 +922,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvRolePrivileges)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion
@@ -899,5 +990,11 @@
         private System.Windows.Forms.Button btnRefreshUserPriv;
         private System.Windows.Forms.Button btnRefreshRolePriv;
         private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.Button btnRevokeExecFromUser;
+        private System.Windows.Forms.Button btnRevokeExecFromRole;
+        private System.Windows.Forms.Button btnRevokeTableFromRole;
+        private System.Windows.Forms.Button btnRevokeTableFromUser;
+        private System.Windows.Forms.Button btnRevokeAllFromUser;
+        private System.Windows.Forms.Button btnRevokeAllFromRole;
     }
 }

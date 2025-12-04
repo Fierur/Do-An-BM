@@ -257,8 +257,10 @@ namespace Do_An_BM
         {
             string search = txtTimKiem.Text.Trim();
             int? maTLS = null;
-            if (cboTheLoai.SelectedIndex >= 0)
+            if (cboTheLoai.SelectedIndex >= 0 && cboTheLoai.SelectedValue != null && !(cboTheLoai.SelectedValue is DataRowView))
+            {
                 maTLS = Convert.ToInt32(cboTheLoai.SelectedValue);
+            }
 
             LoadSach(search, maTLS);
         }
@@ -272,7 +274,8 @@ namespace Do_An_BM
 
         private void cboTheLoai_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cboTheLoai.SelectedIndex >= 0)
+            // Sự kiện có thể bắn trong lúc binding, SelectedValue lúc đó là DataRowView → tránh convert
+            if (cboTheLoai.SelectedIndex >= 0 && cboTheLoai.SelectedValue != null && !(cboTheLoai.SelectedValue is DataRowView))
             {
                 string search = txtTimKiem.Text.Trim();
                 int maTLS = Convert.ToInt32(cboTheLoai.SelectedValue);

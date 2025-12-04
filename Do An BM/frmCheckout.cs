@@ -38,15 +38,15 @@ namespace Do_An_BM
             try
             {
                 string sql = @"
-            SELECT TOP 1 d.MaXP, d.HoTenNN, d.SoNha, d.GhiChu,
-                   x.TenXP, q.TenQH, t.TenTP
-            FROM DiaChiGiaoHang d
-            JOIN XaPhuong x ON d.MaXP = x.MaXP
-            JOIN QuanHuyen q ON x.MaQH = q.MaQH
-            JOIN ThanhPho t ON q.MaTP = t.MaTP
-            WHERE d.MaKH = :makh
-            ORDER BY d.MaDCGH DESC
-        ";
+                    SELECT d.MaXP, d.HoTenNN, d.SoNha, d.GhiChu,
+                           x.TenXP, q.TenQH, t.TenTP
+                    FROM DiaChiGiaoHang d
+                    JOIN XaPhuong x ON d.MaXP = x.MaXP
+                    JOIN QuanHuyen q ON x.MaQH = q.MaQH
+                    JOIN ThanhPho t ON q.MaTP = t.MaTP
+                    WHERE d.MaKH = :makh
+                    ORDER BY d.MaDCGH DESC
+                    FETCH FIRST 1 ROW ONLY";
 
                 var param = new OracleParameter("makh", OracleDbType.Int32,
                     SessionManager.CurrentUserID, ParameterDirection.Input);

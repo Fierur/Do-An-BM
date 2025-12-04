@@ -17,10 +17,33 @@ namespace Do_An_BM
             LoadTrangThai();
             LoadDonHang();
 
-            // Kiểm tra quyền
-            if (!SessionManager.IsAdmin())
+            // Phân quyền hiển thị theo loại user
+            if (SessionManager.IsCustomer())
             {
-                btnDecryptPayment.Enabled = false;
+                // Khách hàng: chỉ xem đơn của chính mình (VPD đã lọc ở DB)
+                // Ẩn / vô hiệu các chức năng quản trị
+                lblTitle.Text = "ĐƠN HÀNG CỦA BẠN";
+
+                btnDecryptPayment.Visible = false;
+                btnUpdateStatus.Visible = false;
+
+                // Ẩn thanh tìm kiếm / lọc nâng cao để giao diện đơn giản hơn
+                txtSearch.Visible = false;
+                lblSearch.Visible = false;
+                btnSearch.Visible = false;
+
+                groupBox1.Visible = false; // nhóm lọc trạng thái + khoảng ngày
+
+                // Chỉnh cảnh báo cho thân thiện hơn với khách hàng
+                lblWarning.Text = "Thông tin thanh toán của bạn được mã hóa an toàn (AES-256 & RSA-2048).";
+            }
+            else
+            {
+                // Nhân viên / Admin: hiển thị đầy đủ, nhưng chỉ Admin được giải mã thanh toán
+                if (!SessionManager.IsAdmin())
+                {
+                    btnDecryptPayment.Enabled = false;
+                }
             }
 
             // Set ngày mặc định
@@ -69,9 +92,30 @@ namespace Do_An_BM
                               FROM BM_USER.DonDatHang d
                               JOIN BM_USER.KhachHang k ON d.MaKH = k.MaKH
                               LEFT JOIN BM_USER.HinhThucThanhToan h ON d.MaHTTT = h.MaHTTT
+                              {0}
                               ORDER BY d.NgayDat DESC";
 
-                DataTable dt = OracleHelper.ExecuteQuery(sql);
+                DataTable dt;
+
+                if (SessionManager.IsCustomer())
+                {
+                    // Khách hàng: chỉ xem đơn của chính mình (thêm WHERE MaKH = :makh,
+                    // ngoài ra VPD ở DB cũng đã lọc theo context)
+                    string whereClause = "WHERE d.MaKH = :makh";
+                    string finalSql = string.Format(sql, whereClause);
+
+                    var param = new OracleParameter("makh", OracleDbType.Int32,
+                        SessionManager.CurrentUserID, ParameterDirection.Input);
+
+                    dt = OracleHelper.ExecuteQuery(finalSql, param);
+                }
+                else
+                {
+                    // Admin / Staff: xem tất cả đơn hàng
+                    string finalSql = string.Format(sql, string.Empty);
+                    dt = OracleHelper.ExecuteQuery(finalSql);
+                }
+
                 if (dt != null)
                 {
                     dgvDonHang.DataSource = dt;
@@ -120,17 +164,44 @@ namespace Do_An_BM
                               FROM BM_USER.DonDatHang d
                               JOIN BM_USER.KhachHang k ON d.MaKH = k.MaKH
                               LEFT JOIN BM_USER.HinhThucThanhToan h ON d.MaHTTT = h.MaHTTT
-                              WHERE LOWER(k.HoTenKH) LIKE LOWER(:keyword) 
-                                 OR d.MaDon = :madon
+                              WHERE {0}
                               ORDER BY d.NgayDat DESC";
-
-                var param = new OracleParameter("keyword", OracleDbType.Varchar2, "%" + keyword + "%", ParameterDirection.Input);
 
                 int maDon = 0;
                 int.TryParse(keyword, out maDon);
-                var param2 = new OracleParameter("madon", OracleDbType.Int32, maDon, ParameterDirection.Input);
 
-                DataTable dt = OracleHelper.ExecuteQuery(sql, param, param2);
+                DataTable dt;
+
+                if (SessionManager.IsCustomer())
+                {
+                    // Khách hàng: chỉ tìm trong đơn của chính mình
+                    string cond = @"d.MaKH = :makh AND 
+                                    (LOWER(k.HoTenKH) LIKE LOWER(:keyword) OR d.MaDon = :madon)";
+                    string finalSql = string.Format(sql, cond);
+
+                    var pMakh = new OracleParameter("makh", OracleDbType.Int32,
+                        SessionManager.CurrentUserID, ParameterDirection.Input);
+                    var pKeyword = new OracleParameter("keyword", OracleDbType.Varchar2,
+                        "%" + keyword + "%", ParameterDirection.Input);
+                    var pMaDon = new OracleParameter("madon", OracleDbType.Int32,
+                        maDon, ParameterDirection.Input);
+
+                    dt = OracleHelper.ExecuteQuery(finalSql, pMakh, pKeyword, pMaDon);
+                }
+                else
+                {
+                    // Admin / Staff: tìm trên toàn bộ đơn
+                    string cond = @"LOWER(k.HoTenKH) LIKE LOWER(:keyword) OR d.MaDon = :madon";
+                    string finalSql = string.Format(sql, cond);
+
+                    var pKeyword = new OracleParameter("keyword", OracleDbType.Varchar2,
+                        "%" + keyword + "%", ParameterDirection.Input);
+                    var pMaDon = new OracleParameter("madon", OracleDbType.Int32,
+                        maDon, ParameterDirection.Input);
+
+                    dt = OracleHelper.ExecuteQuery(finalSql, pKeyword, pMaDon);
+                }
+
                 if (dt != null)
                 {
                     dgvDonHang.DataSource = dt;
@@ -170,26 +241,43 @@ namespace Do_An_BM
                 LoadDonHang();
                 return;
             }
-
             try
             {
                 string sql = @"SELECT d.MaDon, d.NgayDat, k.HoTenKH, d.TongTien, d.PhiShip, d.ThueVAT,
-                      h.TenHTTT, t.TenTT AS TrangThaiHienTai
-                      FROM BM_USER.DonDatHang d
-                      JOIN BM_USER.KhachHang k ON d.MaKH = k.MaKH
-                      LEFT JOIN BM_USER.HinhThucThanhToan h ON d.MaHTTT = h.MaHTTT
-                      JOIN BM_USER.ChiTietTrangThai ct ON d.MaDon = ct.MaDon
-                      JOIN BM_USER.TrangThai t ON ct.MaTT = t.MaTT
-                      WHERE ct.MaTT = :matt
-                      AND ct.NgayCapNhatTT = (
-                          SELECT MAX(NgayCapNhatTT) 
-                          FROM BM_USER.ChiTietTrangThai 
-                          WHERE MaDon = d.MaDon
-                      )
-                      ORDER BY d.NgayDat DESC";
+                                      h.TenHTTT, t.TenTT AS TrangThaiHienTai
+                               FROM BM_USER.DonDatHang d
+                               JOIN BM_USER.KhachHang k ON d.MaKH = k.MaKH
+                               LEFT JOIN BM_USER.HinhThucThanhToan h ON d.MaHTTT = h.MaHTTT
+                               JOIN BM_USER.ChiTietTrangThai ct ON d.MaDon = ct.MaDon
+                               JOIN BM_USER.TrangThai t ON ct.MaTT = t.MaTT
+                               WHERE ct.MaTT = :matt
+                               {0}
+                               AND ct.NgayCapNhatTT = (
+                                   SELECT MAX(NgayCapNhatTT) 
+                                   FROM BM_USER.ChiTietTrangThai 
+                                   WHERE MaDon = d.MaDon
+                               )
+                               ORDER BY d.NgayDat DESC";
 
-                var param = new OracleParameter("matt", OracleDbType.Int32, maTT, ParameterDirection.Input);
-                DataTable dt = OracleHelper.ExecuteQuery(sql, param);
+                DataTable dt;
+                if (SessionManager.IsCustomer())
+                {
+                    string extra = "AND d.MaKH = :makh";
+                    string finalSql = string.Format(sql, extra);
+
+                    var pMatt = new OracleParameter("matt", OracleDbType.Int32, maTT, ParameterDirection.Input);
+                    var pMakh = new OracleParameter("makh", OracleDbType.Int32,
+                        SessionManager.CurrentUserID, ParameterDirection.Input);
+
+                    dt = OracleHelper.ExecuteQuery(finalSql, pMatt, pMakh);
+                }
+                else
+                {
+                    string finalSql = string.Format(sql, string.Empty);
+                    var pMatt = new OracleParameter("matt", OracleDbType.Int32, maTT, ParameterDirection.Input);
+                    dt = OracleHelper.ExecuteQuery(finalSql, pMatt);
+                }
+
                 if (dt != null)
                 {
                     dgvDonHang.DataSource = dt;
@@ -210,11 +298,11 @@ namespace Do_An_BM
                 return;
             }
 
-            //int maDon = Convert.ToInt32(dgvDonHang.SelectedRows[0].Cells["MaDon"].Value);
-            //frmDonHangDetail frm = new frmDonHangDetail(maDon);
-            //frm.ShowDialog();
+            int maDon = Convert.ToInt32(dgvDonHang.SelectedRows[0].Cells["MaDon"].Value);
+            frmDonHangDetail frm = new frmDonHangDetail(maDon);
+            frm.ShowDialog();
 
-            MessageBox.Show("Chức năng đang được bảo trì!", "Thông báo");
+            //MessageBox.Show("Chức năng đang được bảo trì!", "Thông báo");
         }
 
         private void btnDecryptPayment_Click(object sender, EventArgs e)

@@ -203,16 +203,16 @@ namespace Do_An_BM
 
                 // Load active policies
                 string sqlPolicies = @"
-                SELECT 
-                    object_schema AS Schema,
-                    object_name AS Table_Name,
-                    policy_name AS Policy_Name,
-                    function AS Function_Name,
-                    CASE WHEN enable = 'YES' THEN '✓ Enabled' ELSE '✗ Disabled' END AS Status
-                FROM ALL_POLICIES
-                WHERE object_owner = 'BM_USER'
-                ORDER BY object_name, policy_name
-            ";
+    SELECT 
+        OBJECT_OWNER AS Schema,
+        OBJECT_NAME AS Table_Name,
+        POLICY_NAME AS Policy_Name,
+        FUNCTION AS Function_Name,   -- Đã sửa thành FUNCTION
+        CASE WHEN ENABLE = 'YES' THEN '✓ Enabled' ELSE '✗ Disabled' END AS Status
+    FROM ALL_POLICIES
+    WHERE OBJECT_OWNER = 'BM_USER'
+    ORDER BY OBJECT_NAME, POLICY_NAME
+";
 
                 DataTable dtPolicies = OracleHelper.ExecuteQuery(sqlPolicies);
                 dgvPolicies.DataSource = dtPolicies;
