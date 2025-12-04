@@ -71,6 +71,7 @@ namespace Do_An_BM
             this.rbKhachHang.TabIndex = 2;
             this.rbKhachHang.TabStop = true;
             this.rbKhachHang.Text = "Khách hàng";
+            this.rbKhachHang.CheckedChanged += new System.EventHandler(this.RbLoaiTaiKhoan_CheckedChanged);
             // 
             // rbNhanVien
             // 
@@ -79,6 +80,7 @@ namespace Do_An_BM
             this.rbNhanVien.Size = new System.Drawing.Size(100, 25);
             this.rbNhanVien.TabIndex = 3;
             this.rbNhanVien.Text = "Nhân viên";
+            this.rbNhanVien.CheckedChanged += new System.EventHandler(this.RbLoaiTaiKhoan_CheckedChanged);
             // 
             // lblTaiKhoan
             // 
