@@ -159,7 +159,7 @@ namespace Do_An_BM
 
         private void menuSettings_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Chức năng Cài đặt đang phát triển", "Thông báo");
+            new frmSettings().ShowDialog();
         }
 
         private void menuLogout_Click(object sender, EventArgs e)

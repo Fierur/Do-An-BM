@@ -147,9 +147,23 @@ namespace Do_An_BM
 
         private void cboTrangThai_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cboTrangThai.SelectedValue == null) return;
+            if (cboTrangThai.SelectedItem == null) return;
 
-            int maTT = Convert.ToInt32(cboTrangThai.SelectedValue);
+            int maTT = 0;
+            var selectedItem = cboTrangThai.SelectedItem;
+
+            if (selectedItem is DataRowView rowView)
+            {
+                maTT = Convert.ToInt32(rowView["MaTT"]);
+            }
+            else if (selectedItem is DataRow row)
+            {
+                maTT = Convert.ToInt32(row["MaTT"]);
+            }
+            else if (cboTrangThai.SelectedValue != null)
+            {
+                int.TryParse(cboTrangThai.SelectedValue.ToString(), out maTT);
+            }
 
             if (maTT == 0)
             {
@@ -160,19 +174,19 @@ namespace Do_An_BM
             try
             {
                 string sql = @"SELECT d.MaDon, d.NgayDat, k.HoTenKH, d.TongTien, d.PhiShip, d.ThueVAT,
-                              h.TenHTTT, t.TenTT AS TrangThaiHienTai
-                              FROM BM_USER.DonDatHang d
-                              JOIN BM_USER.KhachHang k ON d.MaKH = k.MaKH
-                              LEFT JOIN BM_USER.HinhThucThanhToan h ON d.MaHTTT = h.MaHTTT
-                              JOIN BM_USER.ChiTietTrangThai ct ON d.MaDon = ct.MaDon
-                              JOIN BM_USER.TrangThai t ON ct.MaTT = t.MaTT
-                              WHERE ct.MaTT = :matt
-                              AND ct.NgayCapNhatTT = (
-                                  SELECT MAX(NgayCapNhatTT) 
-                                  FROM BM_USER.ChiTietTrangThai 
-                                  WHERE MaDon = d.MaDon
-                              )
-                              ORDER BY d.NgayDat DESC";
+                      h.TenHTTT, t.TenTT AS TrangThaiHienTai
+                      FROM BM_USER.DonDatHang d
+                      JOIN BM_USER.KhachHang k ON d.MaKH = k.MaKH
+                      LEFT JOIN BM_USER.HinhThucThanhToan h ON d.MaHTTT = h.MaHTTT
+                      JOIN BM_USER.ChiTietTrangThai ct ON d.MaDon = ct.MaDon
+                      JOIN BM_USER.TrangThai t ON ct.MaTT = t.MaTT
+                      WHERE ct.MaTT = :matt
+                      AND ct.NgayCapNhatTT = (
+                          SELECT MAX(NgayCapNhatTT) 
+                          FROM BM_USER.ChiTietTrangThai 
+                          WHERE MaDon = d.MaDon
+                      )
+                      ORDER BY d.NgayDat DESC";
 
                 var param = new OracleParameter("matt", OracleDbType.Int32, maTT, ParameterDirection.Input);
                 DataTable dt = OracleHelper.ExecuteQuery(sql, param);
@@ -187,7 +201,6 @@ namespace Do_An_BM
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void btnViewDetail_Click(object sender, EventArgs e)
         {
             if (dgvDonHang.SelectedRows.Count == 0)

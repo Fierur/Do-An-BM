@@ -120,11 +120,29 @@ namespace Do_An_BM
 
         private void cboTheLoai_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cboTheLoai.SelectedValue != null)
+            if (cboTheLoai.SelectedItem == null) return;
+
+            int maTheLoai = 0;
+            var selectedItem = cboTheLoai.SelectedItem;
+
+            if (selectedItem is DataRowView rowView)
             {
-                int maTheLoai = Convert.ToInt32(cboTheLoai.SelectedValue);
-                LoadSach(maTheLoai > 0 ? maTheLoai : (int?)null);
+                maTheLoai = Convert.ToInt32(rowView["MaTLS"]);
             }
+            else if (selectedItem is DataRow row)
+            {
+                maTheLoai = Convert.ToInt32(row["MaTLS"]);
+            }
+            else
+            {
+                // Thử parse trực tiếp nếu là giá trị đơn giản
+                if (cboTheLoai.SelectedValue != null)
+                {
+                    int.TryParse(cboTheLoai.SelectedValue.ToString(), out maTheLoai);
+                }
+            }
+
+            LoadSach(maTheLoai > 0 ? maTheLoai : (int?)null);
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -148,8 +166,7 @@ namespace Do_An_BM
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Chức năng thêm sách đang phát triển.\n" +
-                "Cần tạo form frmSachDetail để nhập thông tin sách mới.", "Thông báo");
+            new frmSachDetail().ShowDialog();
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
@@ -161,8 +178,7 @@ namespace Do_An_BM
                 return;
             }
 
-            MessageBox.Show("Chức năng sửa sách đang phát triển.\n" +
-                "Cần tạo form frmSachDetail để sửa thông tin sách.", "Thông báo");
+            new frmSachDetail().ShowDialog();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)

@@ -226,6 +226,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionManager.cs" />
+    <EmbeddedResource Include="frmAuditMonitor .resx">
+      <DependentUpon>frmAuditMonitor .cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmCheckout.resx">
       <DependentUpon>frmCheckout.cs</DependentUpon>
     </EmbeddedResource>

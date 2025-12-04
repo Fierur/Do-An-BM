@@ -39,29 +39,46 @@ namespace Do_An_BM
         {
             try
             {
-                string sql = @"SELECT d.MaDon, d.NgayDat, d.TongTien, d.PhiShip, d.ThueVAT,
-                                      k.HoTenKH, t.TenTT, h.TenHTTT,
-                                      d.SoTheTinDung_RSA, d.GhiChuThanhToan_AES
-                               FROM DonDatHang d
-                               JOIN KhachHang k ON d.MaKH = k.MaKH
-                               LEFT JOIN (SELECT MaDon, MaTT FROM ChiTietTrangThai 
-                                          WHERE NgayCapNhatTT = (SELECT MAX(NgayCapNhatTT) 
-                                                                  FROM ChiTietTrangThai 
-                                                                  WHERE MaDon = d.MaDon)) ctt 
-                                    ON d.MaDon = ctt.MaDon
-                               LEFT JOIN TrangThai t ON ctt.MaTT = t.MaTT
-                               JOIN HinhThucThanhToan h ON d.MaHTTT = h.MaHTTT
-                               WHERE d.MaDon = :maDon";
+                string sql = @"SELECT 
+                d.MaDon, 
+                d.NgayDat, 
+                d.TongTien, 
+                d.PhiShip, 
+                d.ThueVAT,
+                k.HoTenKH, 
+                h.TenHTTT,
+                d.SoTheTinDung_RSA, 
+                d.GhiChuThanhToan_AES,
+                -- Lấy trạng thái mới nhất
+                (SELECT t.TenTT 
+                 FROM ChiTietTrangThai ctt 
+                 JOIN TrangThai t ON ctt.MaTT = t.MaTT 
+                 WHERE ctt.MaDon = d.MaDon 
+                 ORDER BY ctt.NgayCapNhatTT DESC 
+                 FETCH FIRST 1 ROW ONLY) AS TenTT
+           FROM DonDatHang d
+           JOIN KhachHang k ON d.MaKH = k.MaKH
+           JOIN HinhThucThanhToan h ON d.MaHTTT = h.MaHTTT
+           WHERE d.MaDon = :maDon";
 
                 OracleParameter[] parameters = {
                     new OracleParameter("maDon", OracleDbType.Int32, maDon, ParameterDirection.Input)
                 };
 
                 DataTable dt = OracleHelper.ExecuteQuery(sql, parameters);
+                // Kiểm tra nghiêm ngặt
+                if (dt == null)
+                {
+                    MessageBox.Show("Lỗi khi thực hiện truy vấn!", "Lỗi",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.Close();
+                    return;
+                }
+
                 if (dt.Rows.Count == 0)
                 {
-                    MessageBox.Show("Không tìm thấy đơn hàng!", "Lỗi",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Không tìm thấy đơn hàng #{maDon}", "Thông báo",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close();
                     return;
                 }
