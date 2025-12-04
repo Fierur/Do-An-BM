@@ -18,36 +18,30 @@
         private void InitializeComponent()
         {
             this.lblTitle = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnLamMoi = new System.Windows.Forms.Button();
             this.dgvKhachHang = new System.Windows.Forms.DataGridView();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.btnCapNhat = new System.Windows.Forms.Button();
-            this.btnHuy = new System.Windows.Forms.Button();
-            this.txtTrangThai = new System.Windows.Forms.ComboBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.dtpNgayDangKy = new System.Windows.Forms.DateTimePicker();
-            this.label6 = new System.Windows.Forms.Label();
-            this.txtDiaChi = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.txtSDT = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtEmail = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtHoTen = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.txtSearch = new System.Windows.Forms.TextBox();
+            this.lblSearch = new System.Windows.Forms.Label();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.btnAdd = new System.Windows.Forms.Button();
+            this.btnEdit = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.btnDecrypt = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblMaKH = new System.Windows.Forms.Label();
+            this.lblHoTen = new System.Windows.Forms.Label();
+            this.lblEmail = new System.Windows.Forms.Label();
+            this.lblSDT = new System.Windows.Forms.Label();
+            this.lblDiaChi = new System.Windows.Forms.Label();
             this.txtMaKH = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.btnXemLichSu = new System.Windows.Forms.Button();
-            this.dgvAuditLog = new System.Windows.Forms.DataGridView();
-            this.lblUserInfo = new System.Windows.Forms.Label();
-            this.lblNote = new System.Windows.Forms.Label();
-            this.groupBox1.SuspendLayout();
+            this.txtHoTen = new System.Windows.Forms.TextBox();
+            this.txtEmail = new System.Windows.Forms.TextBox();
+            this.txtSDT = new System.Windows.Forms.TextBox();
+            this.txtDiaChi = new System.Windows.Forms.TextBox();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvKhachHang)).BeginInit();
-            this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvAuditLog)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblTitle
@@ -57,32 +51,10 @@
             this.lblTitle.ForeColor = System.Drawing.Color.OrangeRed;
             this.lblTitle.Location = new System.Drawing.Point(0, 0);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(1184, 45);
+            this.lblTitle.Size = new System.Drawing.Size(1000, 40);
             this.lblTitle.TabIndex = 0;
-            this.lblTitle.Text = "QUẢN LÝ KHÁCH HÀNG (ADMIN)";
+            this.lblTitle.Text = "QUẢN LÝ KHÁCH HÀNG (FORM 2 - MÃ HÓA AES)";
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.btnLamMoi);
-            this.groupBox1.Controls.Add(this.dgvKhachHang);
-            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.groupBox1.Location = new System.Drawing.Point(12, 75);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(750, 320);
-            this.groupBox1.TabIndex = 1;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Danh sách khách hàng (Email/SĐT đã giải mã)";
-            // 
-            // btnLamMoi
-            // 
-            this.btnLamMoi.Location = new System.Drawing.Point(15, 25);
-            this.btnLamMoi.Name = "btnLamMoi";
-            this.btnLamMoi.Size = new System.Drawing.Size(120, 30);
-            this.btnLamMoi.TabIndex = 1;
-            this.btnLamMoi.Text = "Làm mới dữ liệu";
-            this.btnLamMoi.UseVisualStyleBackColor = true;
-            this.btnLamMoi.Click += new System.EventHandler(this.btnLamMoi_Click);
             // 
             // dgvKhachHang
             // 
@@ -90,265 +62,246 @@
             this.dgvKhachHang.AllowUserToDeleteRows = false;
             this.dgvKhachHang.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvKhachHang.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvKhachHang.Location = new System.Drawing.Point(15, 60);
-            this.dgvKhachHang.MultiSelect = false;
+            this.dgvKhachHang.Location = new System.Drawing.Point(12, 100);
             this.dgvKhachHang.Name = "dgvKhachHang";
             this.dgvKhachHang.ReadOnly = true;
             this.dgvKhachHang.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvKhachHang.Size = new System.Drawing.Size(720, 245);
-            this.dgvKhachHang.TabIndex = 0;
+            this.dgvKhachHang.Size = new System.Drawing.Size(976, 300);
+            this.dgvKhachHang.TabIndex = 1;
             this.dgvKhachHang.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvKhachHang_CellClick);
             // 
-            // groupBox2
+            // txtSearch
             // 
-            this.groupBox2.Controls.Add(this.btnCapNhat);
-            this.groupBox2.Controls.Add(this.btnHuy);
-            this.groupBox2.Controls.Add(this.txtTrangThai);
-            this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.dtpNgayDangKy);
-            this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Controls.Add(this.txtDiaChi);
-            this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.txtSDT);
-            this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.txtEmail);
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.txtHoTen);
-            this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Controls.Add(this.txtMaKH);
-            this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.groupBox2.Location = new System.Drawing.Point(780, 75);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(390, 320);
-            this.groupBox2.TabIndex = 2;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Thông tin chi tiết";
+            this.txtSearch.Location = new System.Drawing.Point(70, 60);
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(250, 20);
+            this.txtSearch.TabIndex = 2;
             // 
-            // btnCapNhat
+            // lblSearch
             // 
-            this.btnCapNhat.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.btnCapNhat.Location = new System.Drawing.Point(115, 275);
-            this.btnCapNhat.Name = "btnCapNhat";
-            this.btnCapNhat.Size = new System.Drawing.Size(100, 30);
-            this.btnCapNhat.TabIndex = 15;
-            this.btnCapNhat.Text = "Cập nhật";
-            this.btnCapNhat.UseVisualStyleBackColor = true;
-            this.btnCapNhat.Click += new System.EventHandler(this.btnCapNhat_Click);
+            this.lblSearch.AutoSize = true;
+            this.lblSearch.Location = new System.Drawing.Point(12, 63);
+            this.lblSearch.Name = "lblSearch";
+            this.lblSearch.Size = new System.Drawing.Size(52, 13);
+            this.lblSearch.TabIndex = 3;
+            this.lblSearch.Text = "Tìm kiếm:";
             // 
-            // btnHuy
+            // btnSearch
             // 
-            this.btnHuy.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.btnHuy.Location = new System.Drawing.Point(230, 275);
-            this.btnHuy.Name = "btnHuy";
-            this.btnHuy.Size = new System.Drawing.Size(100, 30);
-            this.btnHuy.TabIndex = 14;
-            this.btnHuy.Text = "Hủy";
-            this.btnHuy.UseVisualStyleBackColor = true;
-            this.btnHuy.Click += new System.EventHandler(this.btnHuy_Click);
+            this.btnSearch.Location = new System.Drawing.Point(330, 58);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(75, 23);
+            this.btnSearch.TabIndex = 4;
+            this.btnSearch.Text = "Tìm";
+            this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
-            // txtTrangThai
+            // btnRefresh
             // 
-            this.txtTrangThai.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.txtTrangThai.FormattingEnabled = true;
-            this.txtTrangThai.Items.AddRange(new object[] {
-            "ACTIVE",
-            "INACTIVE",
-            "BLOCKED"});
-            this.txtTrangThai.Location = new System.Drawing.Point(115, 237);
-            this.txtTrangThai.Name = "txtTrangThai";
-            this.txtTrangThai.Size = new System.Drawing.Size(250, 24);
-            this.txtTrangThai.TabIndex = 13;
+            this.btnRefresh.Location = new System.Drawing.Point(415, 58);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
+            this.btnRefresh.TabIndex = 5;
+            this.btnRefresh.Text = "Làm mới";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
-            // label7
+            // btnAdd
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(20, 240);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(77, 17);
-            this.label7.TabIndex = 12;
-            this.label7.Text = "Trạng thái:";
+            this.btnAdd.BackColor = System.Drawing.Color.Green;
+            this.btnAdd.ForeColor = System.Drawing.Color.White;
+            this.btnAdd.Location = new System.Drawing.Point(600, 58);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(75, 23);
+            this.btnAdd.TabIndex = 6;
+            this.btnAdd.Text = "Thêm";
+            this.btnAdd.UseVisualStyleBackColor = false;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
-            // dtpNgayDangKy
+            // btnEdit
             // 
-            this.dtpNgayDangKy.Enabled = false;
-            this.dtpNgayDangKy.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpNgayDangKy.Location = new System.Drawing.Point(115, 203);
-            this.dtpNgayDangKy.Name = "dtpNgayDangKy";
-            this.dtpNgayDangKy.Size = new System.Drawing.Size(250, 23);
-            this.dtpNgayDangKy.TabIndex = 11;
+            this.btnEdit.BackColor = System.Drawing.Color.Blue;
+            this.btnEdit.ForeColor = System.Drawing.Color.White;
+            this.btnEdit.Location = new System.Drawing.Point(685, 58);
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.Size = new System.Drawing.Size(75, 23);
+            this.btnEdit.TabIndex = 7;
+            this.btnEdit.Text = "Sửa";
+            this.btnEdit.UseVisualStyleBackColor = false;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
-            // label6
+            // btnDelete
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(20, 207);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(97, 17);
-            this.label6.TabIndex = 10;
-            this.label6.Text = "Ngày đăng ký:";
+            this.btnDelete.BackColor = System.Drawing.Color.Red;
+            this.btnDelete.ForeColor = System.Drawing.Color.White;
+            this.btnDelete.Location = new System.Drawing.Point(770, 58);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(75, 23);
+            this.btnDelete.TabIndex = 8;
+            this.btnDelete.Text = "Xóa";
+            this.btnDelete.UseVisualStyleBackColor = false;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
-            // txtDiaChi
+            // btnDecrypt
             // 
-            this.txtDiaChi.Location = new System.Drawing.Point(115, 168);
-            this.txtDiaChi.Name = "txtDiaChi";
-            this.txtDiaChi.Size = new System.Drawing.Size(250, 23);
-            this.txtDiaChi.TabIndex = 9;
+            this.btnDecrypt.BackColor = System.Drawing.Color.Orange;
+            this.btnDecrypt.ForeColor = System.Drawing.Color.White;
+            this.btnDecrypt.Location = new System.Drawing.Point(855, 58);
+            this.btnDecrypt.Name = "btnDecrypt";
+            this.btnDecrypt.Size = new System.Drawing.Size(133, 23);
+            this.btnDecrypt.TabIndex = 9;
+            this.btnDecrypt.Text = "Giải mã Email/SDT";
+            this.btnDecrypt.UseVisualStyleBackColor = false;
+            this.btnDecrypt.Click += new System.EventHandler(this.btnDecrypt_Click);
             // 
-            // label5
+            // groupBox1
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(20, 171);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(57, 17);
-            this.label5.TabIndex = 8;
-            this.label5.Text = "Địa chỉ:";
+            this.groupBox1.Controls.Add(this.btnCancel);
+            this.groupBox1.Controls.Add(this.btnSave);
+            this.groupBox1.Controls.Add(this.txtDiaChi);
+            this.groupBox1.Controls.Add(this.txtSDT);
+            this.groupBox1.Controls.Add(this.txtEmail);
+            this.groupBox1.Controls.Add(this.txtHoTen);
+            this.groupBox1.Controls.Add(this.txtMaKH);
+            this.groupBox1.Controls.Add(this.lblDiaChi);
+            this.groupBox1.Controls.Add(this.lblSDT);
+            this.groupBox1.Controls.Add(this.lblEmail);
+            this.groupBox1.Controls.Add(this.lblHoTen);
+            this.groupBox1.Controls.Add(this.lblMaKH);
+            this.groupBox1.Location = new System.Drawing.Point(12, 420);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(976, 180);
+            this.groupBox1.TabIndex = 10;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Thông tin khách hàng";
+            this.groupBox1.Visible = false;
             // 
-            // txtSDT
+            // lblMaKH
             // 
-            this.txtSDT.Location = new System.Drawing.Point(115, 133);
-            this.txtSDT.MaxLength = 11;
-            this.txtSDT.Name = "txtSDT";
-            this.txtSDT.Size = new System.Drawing.Size(250, 23);
-            this.txtSDT.TabIndex = 7;
+            this.lblMaKH.AutoSize = true;
+            this.lblMaKH.Location = new System.Drawing.Point(20, 30);
+            this.lblMaKH.Name = "lblMaKH";
+            this.lblMaKH.Size = new System.Drawing.Size(43, 13);
+            this.lblMaKH.TabIndex = 0;
+            this.lblMaKH.Text = "Mã KH:";
             // 
-            // label4
+            // lblHoTen
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(20, 136);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(40, 17);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "SĐT:";
+            this.lblHoTen.AutoSize = true;
+            this.lblHoTen.Location = new System.Drawing.Point(20, 60);
+            this.lblHoTen.Name = "lblHoTen";
+            this.lblHoTen.Size = new System.Drawing.Size(42, 13);
+            this.lblHoTen.TabIndex = 1;
+            this.lblHoTen.Text = "Họ tên:";
             // 
-            // txtEmail
+            // lblEmail
             // 
-            this.txtEmail.Location = new System.Drawing.Point(115, 98);
-            this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(250, 23);
-            this.txtEmail.TabIndex = 5;
+            this.lblEmail.AutoSize = true;
+            this.lblEmail.Location = new System.Drawing.Point(20, 90);
+            this.lblEmail.Name = "lblEmail";
+            this.lblEmail.Size = new System.Drawing.Size(35, 13);
+            this.lblEmail.TabIndex = 2;
+            this.lblEmail.Text = "Email:";
             // 
-            // label3
+            // lblSDT
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(20, 101);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(46, 17);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Email:";
+            this.lblSDT.AutoSize = true;
+            this.lblSDT.Location = new System.Drawing.Point(500, 30);
+            this.lblSDT.Name = "lblSDT";
+            this.lblSDT.Size = new System.Drawing.Size(32, 13);
+            this.lblSDT.TabIndex = 3;
+            this.lblSDT.Text = "SĐT:";
             // 
-            // txtHoTen
+            // lblDiaChi
             // 
-            this.txtHoTen.Location = new System.Drawing.Point(115, 63);
-            this.txtHoTen.Name = "txtHoTen";
-            this.txtHoTen.Size = new System.Drawing.Size(250, 23);
-            this.txtHoTen.TabIndex = 3;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(20, 66);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(56, 17);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Họ tên:";
+            this.lblDiaChi.AutoSize = true;
+            this.lblDiaChi.Location = new System.Drawing.Point(500, 60);
+            this.lblDiaChi.Name = "lblDiaChi";
+            this.lblDiaChi.Size = new System.Drawing.Size(43, 13);
+            this.lblDiaChi.TabIndex = 4;
+            this.lblDiaChi.Text = "Địa chỉ:";
             // 
             // txtMaKH
             // 
-            this.txtMaKH.Enabled = false;
-            this.txtMaKH.Location = new System.Drawing.Point(115, 28);
+            this.txtMaKH.Location = new System.Drawing.Point(120, 27);
             this.txtMaKH.Name = "txtMaKH";
             this.txtMaKH.ReadOnly = true;
-            this.txtMaKH.Size = new System.Drawing.Size(250, 23);
-            this.txtMaKH.TabIndex = 1;
+            this.txtMaKH.Size = new System.Drawing.Size(300, 20);
+            this.txtMaKH.TabIndex = 5;
             // 
-            // label1
+            // txtHoTen
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(20, 31);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(55, 17);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Mã KH:";
+            this.txtHoTen.Location = new System.Drawing.Point(120, 57);
+            this.txtHoTen.Name = "txtHoTen";
+            this.txtHoTen.Size = new System.Drawing.Size(300, 20);
+            this.txtHoTen.TabIndex = 6;
             // 
-            // groupBox3
+            // txtEmail
             // 
-            this.groupBox3.Controls.Add(this.btnXemLichSu);
-            this.groupBox3.Controls.Add(this.dgvAuditLog);
-            this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.groupBox3.Location = new System.Drawing.Point(12, 401);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(1160, 240);
-            this.groupBox3.TabIndex = 3;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Lịch sử thay đổi (Audit Log)";
+            this.txtEmail.Location = new System.Drawing.Point(120, 87);
+            this.txtEmail.Name = "txtEmail";
+            this.txtEmail.Size = new System.Drawing.Size(300, 20);
+            this.txtEmail.TabIndex = 7;
             // 
-            // btnXemLichSu
+            // txtSDT
             // 
-            this.btnXemLichSu.Location = new System.Drawing.Point(15, 25);
-            this.btnXemLichSu.Name = "btnXemLichSu";
-            this.btnXemLichSu.Size = new System.Drawing.Size(150, 30);
-            this.btnXemLichSu.TabIndex = 1;
-            this.btnXemLichSu.Text = "Xem lịch sử đầy đủ";
-            this.btnXemLichSu.UseVisualStyleBackColor = true;
-            this.btnXemLichSu.Click += new System.EventHandler(this.btnXemLichSu_Click);
+            this.txtSDT.Location = new System.Drawing.Point(600, 27);
+            this.txtSDT.Name = "txtSDT";
+            this.txtSDT.Size = new System.Drawing.Size(300, 20);
+            this.txtSDT.TabIndex = 8;
             // 
-            // dgvAuditLog
+            // txtDiaChi
             // 
-            this.dgvAuditLog.AllowUserToAddRows = false;
-            this.dgvAuditLog.AllowUserToDeleteRows = false;
-            this.dgvAuditLog.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvAuditLog.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvAuditLog.Location = new System.Drawing.Point(15, 60);
-            this.dgvAuditLog.Name = "dgvAuditLog";
-            this.dgvAuditLog.ReadOnly = true;
-            this.dgvAuditLog.Size = new System.Drawing.Size(1130, 165);
-            this.dgvAuditLog.TabIndex = 0;
+            this.txtDiaChi.Location = new System.Drawing.Point(600, 57);
+            this.txtDiaChi.Multiline = true;
+            this.txtDiaChi.Name = "txtDiaChi";
+            this.txtDiaChi.Size = new System.Drawing.Size(300, 50);
+            this.txtDiaChi.TabIndex = 9;
             // 
-            // lblUserInfo
+            // btnSave
             // 
-            this.lblUserInfo.AutoSize = true;
-            this.lblUserInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
-            this.lblUserInfo.ForeColor = System.Drawing.Color.Blue;
-            this.lblUserInfo.Location = new System.Drawing.Point(12, 50);
-            this.lblUserInfo.Name = "lblUserInfo";
-            this.lblUserInfo.Size = new System.Drawing.Size(176, 15);
-            this.lblUserInfo.TabIndex = 4;
-            this.lblUserInfo.Text = "Đăng nhập với: BM_USER";
+            this.btnSave.BackColor = System.Drawing.Color.Green;
+            this.btnSave.ForeColor = System.Drawing.Color.White;
+            this.btnSave.Location = new System.Drawing.Point(700, 130);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(100, 30);
+            this.btnSave.TabIndex = 10;
+            this.btnSave.Text = "Lưu";
+            this.btnSave.UseVisualStyleBackColor = false;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // lblNote
+            // btnCancel
             // 
-            this.lblNote.AutoSize = true;
-            this.lblNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.lblNote.ForeColor = System.Drawing.Color.Gray;
-            this.lblNote.Location = new System.Drawing.Point(777, 50);
-            this.lblNote.Name = "lblNote";
-            this.lblNote.Size = new System.Drawing.Size(393, 15);
-            this.lblNote.TabIndex = 5;
-            this.lblNote.Text = "Lưu ý: Mọi thay đổi sẽ được ghi vào Audit Log tự động qua Trigger";
+            this.btnCancel.Location = new System.Drawing.Point(810, 130);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(100, 30);
+            this.btnCancel.TabIndex = 11;
+            this.btnCancel.Text = "Hủy";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // frmQuanLyKhachHang
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1184, 651);
-            this.Controls.Add(this.lblNote);
-            this.Controls.Add(this.lblUserInfo);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
+            this.ClientSize = new System.Drawing.Size(1000, 615);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.btnDecrypt);
+            this.Controls.Add(this.btnDelete);
+            this.Controls.Add(this.btnEdit);
+            this.Controls.Add(this.btnAdd);
+            this.Controls.Add(this.btnRefresh);
+            this.Controls.Add(this.btnSearch);
+            this.Controls.Add(this.lblSearch);
+            this.Controls.Add(this.txtSearch);
+            this.Controls.Add(this.dgvKhachHang);
             this.Controls.Add(this.lblTitle);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
             this.Name = "frmQuanLyKhachHang";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Quản lý khách hàng - Admin";
+            this.Text = "Quản lý Khách hàng";
             this.Load += new System.EventHandler(this.frmQuanLyKhachHang_Load);
-            this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvKhachHang)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvAuditLog)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -357,30 +310,27 @@
         #endregion
 
         private System.Windows.Forms.Label lblTitle;
-        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DataGridView dgvKhachHang;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.TextBox txtSearch;
+        private System.Windows.Forms.Label lblSearch;
+        private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.Button btnEdit;
+        private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Button btnDecrypt;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label lblMaKH;
+        private System.Windows.Forms.Label lblHoTen;
+        private System.Windows.Forms.Label lblEmail;
+        private System.Windows.Forms.Label lblSDT;
+        private System.Windows.Forms.Label lblDiaChi;
         private System.Windows.Forms.TextBox txtMaKH;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnCapNhat;
-        private System.Windows.Forms.Button btnHuy;
-        private System.Windows.Forms.ComboBox txtTrangThai;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.DateTimePicker dtpNgayDangKy;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox txtDiaChi;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox txtSDT;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox txtEmail;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtHoTen;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.DataGridView dgvAuditLog;
-        private System.Windows.Forms.Button btnLamMoi;
-        private System.Windows.Forms.Button btnXemLichSu;
-        private System.Windows.Forms.Label lblUserInfo;
-        private System.Windows.Forms.Label lblNote;
+        private System.Windows.Forms.TextBox txtEmail;
+        private System.Windows.Forms.TextBox txtSDT;
+        private System.Windows.Forms.TextBox txtDiaChi;
+        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Button btnCancel;
     }
 }

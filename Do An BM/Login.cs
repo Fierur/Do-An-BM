@@ -29,13 +29,15 @@ namespace Do_An_BM
             if (Check_Textbox(host, port, sid, user, pass))
             {
                 Database.Set_Database(host, port, sid, user, pass);
+                // ✅ NÊN SỬA THÀNH: Route dựa trên role
                 if (Database.Connect())
                 {
-                    MessageBox.Show("Đăng nhập thành công");
-                    new frmPhanQuyenOracle().Show();
-                    new frmQuanLyKhachHang().Show();
-                    new frmRegisterKhachHang().Show();
-                    //this.Hide();
+                    // Giả sử đăng nhập với BM_USER = Admin
+                    SessionManager.Login(999, "Admin", "ADMIN");
+
+                    this.Hide();
+                    new frmAdminDashboard().ShowDialog();
+                    this.Close();
                 }
             }
             else
@@ -69,7 +71,7 @@ namespace Do_An_BM
 
         private void frmLogin_Load(object sender, EventArgs e)
         {
-            txtHost.Text = "26.85.209.147";
+            txtHost.Text = "26.71.28.188";
             txtPort.Text = "1521";
             txtSid.Text = "orcl";
             txtUser.Text = "BM_USER";

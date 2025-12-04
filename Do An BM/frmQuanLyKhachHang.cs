@@ -8,6 +8,7 @@ namespace Do_An_BM
 {
     public partial class frmQuanLyKhachHang : Form
     {
+        private bool isEditing = false;
         public frmQuanLyKhachHang()
         {
             InitializeComponent();
@@ -15,236 +16,267 @@ namespace Do_An_BM
 
         private void frmQuanLyKhachHang_Load(object sender, EventArgs e)
         {
-            // Kiểm tra quyền Admin
-            if (!CheckAdminPermission())
+            LoadKhachHang();
+        }
+
+        private void LoadKhachHang()
+        {
+            try
             {
-                MessageBox.Show("Chỉ Admin (BM_USER hoặc SYS) mới có quyền truy cập form này!",
-                    "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                this.Close();
+                string sql = @"SELECT MaKH, HoTenKH, DiaChiKH, NgayDangKy, TrangThai 
+                              FROM BM_USER.KhachHang 
+                              ORDER BY MaKH DESC";
+
+                DataTable dt = OracleHelper.ExecuteQuery(sql);
+                if (dt != null)
+                {
+                    dgvKhachHang.DataSource = dt;
+                    dgvKhachHang.Columns["MaKH"].HeaderText = "Mã KH";
+                    dgvKhachHang.Columns["HoTenKH"].HeaderText = "Họ tên";
+                    dgvKhachHang.Columns["DiaChiKH"].HeaderText = "Địa chỉ";
+                    dgvKhachHang.Columns["NgayDangKy"].HeaderText = "Ngày đăng ký";
+                    dgvKhachHang.Columns["TrangThai"].HeaderText = "Trạng thái";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tải dữ liệu: " + ex.Message, "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            LoadKhachHang();
+            txtSearch.Clear();
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            string keyword = txtSearch.Text.Trim();
+            if (string.IsNullOrEmpty(keyword))
+            {
+                LoadKhachHang();
                 return;
             }
 
-            // Hiển thị thông tin user đang đăng nhập
-            lblUserInfo.Text = $"Đăng nhập với: {Database.User}";
-
-            // Load dữ liệu ban đầu
-            LoadDanhSachKhachHang();
-            LoadAuditLog();
-
-            // Set giá trị mặc định
-            txtTrangThai.SelectedIndex = 0;
-        }
-
-        private bool CheckAdminPermission()
-        {
-            if (Database.Con == null || Database.Con.State != ConnectionState.Open)
-            {
-                MessageBox.Show("Chưa kết nối đến cơ sở dữ liệu!", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-
-            // Chỉ cho phép BM_USER hoặc SYS
-            if (!Database.User.Equals("BM_USER", StringComparison.OrdinalIgnoreCase) &&
-                !Database.User.Equals("SYS", StringComparison.OrdinalIgnoreCase))
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        private void LoadDanhSachKhachHang()
-        {
             try
             {
-                // Truy vấn với giải mã Email và SĐT
-                string sql = @"SELECT 
-                                MaKH AS ""Mã KH"",
-                                HoTenKH AS ""Họ tên"",
-                                BM_USER.DECRYPT_AES(email) AS ""Email"",
-                                BM_USER.DECRYPT_AES(SDT) AS ""SĐT"",
-                                DiaChiKH AS ""Địa chỉ"",
-                                TO_CHAR(NgayDangKy, 'DD/MM/YYYY') AS ""Ngày đăng ký"",
-                                TrangThai AS ""Trạng thái""
-                              FROM KhachHang
+                string sql = @"SELECT MaKH, HoTenKH, DiaChiKH, NgayDangKy, TrangThai 
+                              FROM BM_USER.KhachHang 
+                              WHERE LOWER(HoTenKH) LIKE LOWER(:keyword) 
+                                 OR LOWER(DiaChiKH) LIKE LOWER(:keyword)
+                                 OR MaKH = :makh
                               ORDER BY MaKH DESC";
 
-                OracleDataAdapter adapter = new OracleDataAdapter(sql, Database.Con);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
+                var param = new OracleParameter("keyword", OracleDbType.Varchar2, "%" + keyword + "%", ParameterDirection.Input);
 
-                dgvKhachHang.DataSource = dt;
-                dgvKhachHang.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                int maKH = 0;
+                int.TryParse(keyword, out maKH);
+                var param2 = new OracleParameter("makh", OracleDbType.Int32, maKH, ParameterDirection.Input);
 
-                // Ẩn selection ban đầu
-                dgvKhachHang.ClearSelection();
+                DataTable dt = OracleHelper.ExecuteQuery(sql, param, param2);
+                if (dt != null)
+                {
+                    dgvKhachHang.DataSource = dt;
+                    MessageBox.Show($"Tìm thấy {dt.Rows.Count} kết quả", "Thông báo",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi khi tải dữ liệu: " + ex.Message +
-                    "\n\nĐảm bảo các function DECRYPT_AES đã được tạo!",
-                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi khi tìm kiếm: " + ex.Message, "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void LoadAuditLog(string filter = "")
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            ClearForm();
+            groupBox1.Visible = true;
+            isEditing = false;
+
+            // Generate MaKH mới
+            try
+            {
+                string sql = "SELECT NVL(MAX(MaKH), 0) + 1 AS NewMaKH FROM BM_USER.KhachHang";
+                DataTable dt = OracleHelper.ExecuteQuery(sql);
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    txtMaKH.Text = dt.Rows[0]["NewMaKH"].ToString();
+                }
+            }
+            catch { }
+        }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            if (dgvKhachHang.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Vui lòng chọn khách hàng cần sửa!", "Cảnh báo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            groupBox1.Visible = true;
+            isEditing = true;
+            LoadDetailKhachHang();
+        }
+
+        private void LoadDetailKhachHang()
         {
             try
             {
-                string sql = @"SELECT 
-                                TO_CHAR(LOG_TIME, 'DD/MM/YYYY HH24:MI:SS') AS ""Thời gian"",
-                                USERNAME AS ""Người dùng"",
-                                ACTION AS ""Hành động"",
-                                IP AS ""Địa chỉ IP""
-                              FROM AUDIT_LOG
-                              WHERE 1=1 ";
+                int maKH = Convert.ToInt32(dgvKhachHang.SelectedRows[0].Cells["MaKH"].Value);
 
-                if (!string.IsNullOrEmpty(filter))
+                string sql = @"SELECT MaKH, HoTenKH, Email, SDT, DiaChiKH 
+                              FROM BM_USER.KhachHang 
+                              WHERE MaKH = :makh";
+
+                var param = new OracleParameter("makh", OracleDbType.Int32, maKH, ParameterDirection.Input);
+                DataTable dt = OracleHelper.ExecuteQuery(sql, param);
+
+                if (dt != null && dt.Rows.Count > 0)
                 {
-                    sql += filter;
+                    DataRow row = dt.Rows[0];
+                    txtMaKH.Text = row["MaKH"].ToString();
+                    txtHoTen.Text = row["HoTenKH"].ToString();
+                    txtDiaChi.Text = row["DiaChiKH"].ToString();
+
+                    // Giải mã Email và SDT để hiển thị
+                    byte[] encryptedEmail = row["Email"] as byte[];
+                    byte[] encryptedSDT = row["SDT"] as byte[];
+
+                    if (encryptedEmail != null)
+                        txtEmail.Text = OracleHelper.DecryptAES(encryptedEmail);
+
+                    if (encryptedSDT != null)
+                        txtSDT.Text = OracleHelper.DecryptAES(encryptedSDT);
                 }
-
-                sql += " ORDER BY LOG_TIME DESC FETCH FIRST 50 ROWS ONLY";
-
-                OracleDataAdapter adapter = new OracleDataAdapter(sql, Database.Con);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-
-                dgvAuditLog.DataSource = dt;
-                dgvAuditLog.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi khi tải Audit Log: " + ex.Message,
-                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi khi tải chi tiết: " + ex.Message, "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void dgvKhachHang_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void btnSave_Click(object sender, EventArgs e)
         {
-            if (e.RowIndex >= 0)
+            if (!ValidateForm()) return;
+
+            try
             {
-                try
+                // Mã hóa Email và SDT
+                byte[] encryptedEmail = OracleHelper.EncryptAES(txtEmail.Text.Trim());
+                byte[] encryptedSDT = OracleHelper.EncryptAES(txtSDT.Text.Trim());
+
+                if (isEditing)
                 {
-                    DataGridViewRow row = dgvKhachHang.Rows[e.RowIndex];
+                    // UPDATE
+                    string sql = @"UPDATE BM_USER.KhachHang 
+                                  SET HoTenKH = :hoten, 
+                                      Email = :email, 
+                                      SDT = :sdt, 
+                                      DiaChiKH = :diachi 
+                                  WHERE MaKH = :makh";
 
-                    // Hiển thị thông tin lên form chi tiết
-                    txtMaKH.Text = row.Cells["Mã KH"].Value?.ToString() ?? "";
-                    txtHoTen.Text = row.Cells["Họ tên"].Value?.ToString() ?? "";
-                    txtEmail.Text = row.Cells["Email"].Value?.ToString() ?? "";
-                    txtSDT.Text = row.Cells["SĐT"].Value?.ToString() ?? "";
-                    txtDiaChi.Text = row.Cells["Địa chỉ"].Value?.ToString() ?? "";
+                    var param1 = new OracleParameter("hoten", OracleDbType.NVarchar2, txtHoTen.Text.Trim(), ParameterDirection.Input);
+                    var param2 = new OracleParameter("email", OracleDbType.Raw, encryptedEmail, ParameterDirection.Input);
+                    var param3 = new OracleParameter("sdt", OracleDbType.Raw, encryptedSDT, ParameterDirection.Input);
+                    var param4 = new OracleParameter("diachi", OracleDbType.NVarchar2, txtDiaChi.Text.Trim(), ParameterDirection.Input);
+                    var param5 = new OracleParameter("makh", OracleDbType.Int32, Convert.ToInt32(txtMaKH.Text), ParameterDirection.Input);
 
-                    // Parse ngày đăng ký
-                    string ngayDK = row.Cells["Ngày đăng ký"].Value?.ToString() ?? "";
-                    if (DateTime.TryParseExact(ngayDK, "dd/MM/yyyy",
-                        System.Globalization.CultureInfo.InvariantCulture,
-                        System.Globalization.DateTimeStyles.None, out DateTime date))
+                    int result = OracleHelper.ExecuteNonQuery(sql, param1, param2, param3, param4, param5);
+
+                    if (result > 0)
                     {
-                        dtpNgayDangKy.Value = date;
+                        MessageBox.Show("Cập nhật khách hàng thành công!", "Thông báo",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        groupBox1.Visible = false;
+                        LoadKhachHang();
                     }
-
-                    // Trạng thái
-                    string trangThai = row.Cells["Trạng thái"].Value?.ToString() ?? "ACTIVE";
-                    int index = txtTrangThai.FindString(trangThai);
-                    if (index >= 0)
-                        txtTrangThai.SelectedIndex = index;
-                    else
-                        txtTrangThai.SelectedIndex = 0;
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show("Lỗi khi chọn khách hàng: " + ex.Message,
-                        "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
+                    // INSERT - Cần tạo GioHang trước
+                    int maGH = CreateGioHang();
+                    if (maGH <= 0) return;
 
-        private void btnCapNhat_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // Validate dữ liệu
-                if (string.IsNullOrWhiteSpace(txtMaKH.Text))
-                {
-                    MessageBox.Show("Vui lòng chọn khách hàng cần cập nhật!",
-                        "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
+                    // Hash password mặc định
+                    byte[] hashedPassword = OracleHelper.HashPassword("123456");
 
-                if (!ValidateInput())
-                    return;
+                    string sql = @"INSERT INTO BM_USER.KhachHang 
+                                  (MaKH, HoTenKH, Email, SDT, DiaChiKH, MatKhau, MaGH, TrangThai) 
+                                  VALUES (:makh, :hoten, :email, :sdt, :diachi, :matkhau, :magh, 'ACTIVE')";
 
-                // Xác nhận cập nhật
-                DialogResult result = MessageBox.Show(
-                    "Bạn có chắc muốn cập nhật thông tin khách hàng này?\n\n" +
-                    "Thay đổi sẽ được ghi vào Audit Log.",
-                    "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    var param1 = new OracleParameter("makh", OracleDbType.Int32, Convert.ToInt32(txtMaKH.Text), ParameterDirection.Input);
+                    var param2 = new OracleParameter("hoten", OracleDbType.NVarchar2, txtHoTen.Text.Trim(), ParameterDirection.Input);
+                    var param3 = new OracleParameter("email", OracleDbType.Raw, encryptedEmail, ParameterDirection.Input);
+                    var param4 = new OracleParameter("sdt", OracleDbType.Raw, encryptedSDT, ParameterDirection.Input);
+                    var param5 = new OracleParameter("diachi", OracleDbType.NVarchar2, txtDiaChi.Text.Trim(), ParameterDirection.Input);
+                    var param6 = new OracleParameter("matkhau", OracleDbType.Raw, hashedPassword, ParameterDirection.Input);
+                    var param7 = new OracleParameter("magh", OracleDbType.Int32, maGH, ParameterDirection.Input);
 
-                if (result == DialogResult.No)
-                    return;
+                    int result = OracleHelper.ExecuteNonQuery(sql, param1, param2, param3, param4, param5, param6, param7);
 
-                // Cập nhật vào database
-                if (UpdateKhachHang())
-                {
-                    MessageBox.Show("Cập nhật thông tin thành công!\n\n" +
-                        "Thay đổi đã được ghi vào Audit Log.",
-                        "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    // Refresh dữ liệu
-                    LoadDanhSachKhachHang();
-                    LoadAuditLog();
-                    ClearForm();
+                    if (result > 0)
+                    {
+                        MessageBox.Show("Thêm khách hàng thành công!\nMật khẩu mặc định: 123456",
+                            "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        groupBox1.Visible = false;
+                        LoadKhachHang();
+                    }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi khi cập nhật: " + ex.Message,
-                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi khi lưu: " + ex.Message, "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private bool ValidateInput()
+        private int CreateGioHang()
         {
-            // Validate họ tên
+            try
+            {
+                string sql1 = "SELECT NVL(MAX(MaGH), 0) + 1 AS NewMaGH FROM BM_USER.GioHang";
+                DataTable dt = OracleHelper.ExecuteQuery(sql1);
+                int maGH = Convert.ToInt32(dt.Rows[0]["NewMaGH"]);
+
+                string sql2 = "INSERT INTO BM_USER.GioHang (MaGH) VALUES (:magh)";
+                var param = new OracleParameter("magh", OracleDbType.Int32, maGH, ParameterDirection.Input);
+                OracleHelper.ExecuteNonQuery(sql2, param);
+
+                return maGH;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+        private bool ValidateForm()
+        {
             if (string.IsNullOrWhiteSpace(txtHoTen.Text))
             {
-                MessageBox.Show("Họ tên không được để trống!", "Cảnh báo",
+                MessageBox.Show("Vui lòng nhập họ tên!", "Cảnh báo",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtHoTen.Focus();
                 return false;
             }
 
-            // Validate email
             if (string.IsNullOrWhiteSpace(txtEmail.Text))
             {
-                MessageBox.Show("Email không được để trống!", "Cảnh báo",
+                MessageBox.Show("Vui lòng nhập email!", "Cảnh báo",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtEmail.Focus();
                 return false;
             }
 
-            if (!IsValidEmail(txtEmail.Text))
-            {
-                MessageBox.Show("Email không hợp lệ!", "Cảnh báo",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtEmail.Focus();
-                return false;
-            }
-
-            // Validate SĐT
             if (string.IsNullOrWhiteSpace(txtSDT.Text))
             {
-                MessageBox.Show("SĐT không được để trống!", "Cảnh báo",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtSDT.Focus();
-                return false;
-            }
-
-            if (!Regex.IsMatch(txtSDT.Text, @"^[0-9]{10,11}$"))
-            {
-                MessageBox.Show("SĐT phải có 10-11 chữ số!", "Cảnh báo",
+                MessageBox.Show("Vui lòng nhập SĐT!", "Cảnh báo",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtSDT.Focus();
                 return false;
@@ -253,83 +285,9 @@ namespace Do_An_BM
             return true;
         }
 
-        private bool IsValidEmail(string email)
+        private void btnCancel_Click(object sender, EventArgs e)
         {
-            try
-            {
-                var addr = new System.Net.Mail.MailAddress(email);
-                return addr.Address == email && email.Contains("@") && email.Contains(".");
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        private bool UpdateKhachHang()
-        {
-            try
-            {
-                // Câu lệnh UPDATE với mã hóa Email và SĐT
-                // Trigger AUDIT_SENSITIVE sẽ tự động ghi log
-                string sql = @"UPDATE KhachHang 
-                              SET HoTenKH = :hoTen,
-                                  email = BM_USER.ENCRYPT_AES(:email),
-                                  SDT = BM_USER.ENCRYPT_AES(:sdt),
-                                  DiaChiKH = :diaChi,
-                                  TrangThai = :trangThai
-                              WHERE MaKH = :maKH";
-
-                OracleCommand cmd = new OracleCommand(sql, Database.Con);
-                cmd.Parameters.Add("hoTen", OracleDbType.NVarchar2).Value = txtHoTen.Text.Trim();
-                cmd.Parameters.Add("email", OracleDbType.Varchar2).Value = txtEmail.Text.Trim();
-                cmd.Parameters.Add("sdt", OracleDbType.Varchar2).Value = txtSDT.Text.Trim();
-                cmd.Parameters.Add("diaChi", OracleDbType.NVarchar2).Value =
-                    string.IsNullOrWhiteSpace(txtDiaChi.Text) ? (object)DBNull.Value : txtDiaChi.Text.Trim();
-                cmd.Parameters.Add("trangThai", OracleDbType.Varchar2).Value = txtTrangThai.Text;
-                cmd.Parameters.Add("maKH", OracleDbType.Int32).Value = int.Parse(txtMaKH.Text);
-
-                int rowsAffected = cmd.ExecuteNonQuery();
-                return rowsAffected > 0;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi UPDATE: " + ex.Message, "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-        }
-
-        private void btnLamMoi_Click(object sender, EventArgs e)
-        {
-            LoadDanhSachKhachHang();
-            ClearForm();
-            MessageBox.Show("Đã làm mới dữ liệu!", "Thông báo",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        private void btnXemLichSu_Click(object sender, EventArgs e)
-        {
-            // Nếu đang chọn khách hàng, lọc theo khách hàng đó
-            if (!string.IsNullOrEmpty(txtMaKH.Text))
-            {
-                string maKH = txtMaKH.Text;
-                string filter = $" AND (ACTION LIKE '%KH {maKH}%' OR ACTION LIKE '%KHACHHANG%')";
-                LoadAuditLog(filter);
-                MessageBox.Show($"Đang hiển thị lịch sử liên quan đến Khách hàng {maKH}",
-                    "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                // Hiển thị tất cả log
-                LoadAuditLog();
-                MessageBox.Show("Đang hiển thị 50 log gần nhất",
-                    "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
-
-        private void btnHuy_Click(object sender, EventArgs e)
-        {
+            groupBox1.Visible = false;
             ClearForm();
         }
 
@@ -340,9 +298,88 @@ namespace Do_An_BM
             txtEmail.Clear();
             txtSDT.Clear();
             txtDiaChi.Clear();
-            dtpNgayDangKy.Value = DateTime.Now;
-            txtTrangThai.SelectedIndex = 0;
-            dgvKhachHang.ClearSelection();
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (dgvKhachHang.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Vui lòng chọn khách hàng cần xóa!", "Cảnh báo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int maKH = Convert.ToInt32(dgvKhachHang.SelectedRows[0].Cells["MaKH"].Value);
+            string hoTen = dgvKhachHang.SelectedRows[0].Cells["HoTenKH"].Value.ToString();
+
+            DialogResult result = MessageBox.Show(
+                $"Bạn có chắc muốn xóa khách hàng: {hoTen}?",
+                "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                try
+                {
+                    string sql = "DELETE FROM BM_USER.KhachHang WHERE MaKH = :makh";
+                    var param = new OracleParameter("makh", OracleDbType.Int32, maKH, ParameterDirection.Input);
+
+                    int rowsAffected = OracleHelper.ExecuteNonQuery(sql, param);
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show("Xóa khách hàng thành công!", "Thông báo",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadKhachHang();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi khi xóa: " + ex.Message, "Lỗi",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void btnDecrypt_Click(object sender, EventArgs e)
+        {
+            if (dgvKhachHang.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Vui lòng chọn khách hàng!", "Cảnh báo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                int maKH = Convert.ToInt32(dgvKhachHang.SelectedRows[0].Cells["MaKH"].Value);
+
+                string sql = @"SELECT Email, SDT FROM BM_USER.KhachHang WHERE MaKH = :makh";
+                var param = new OracleParameter("makh", OracleDbType.Int32, maKH, ParameterDirection.Input);
+                DataTable dt = OracleHelper.ExecuteQuery(sql, param);
+
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    byte[] encryptedEmail = dt.Rows[0]["Email"] as byte[];
+                    byte[] encryptedSDT = dt.Rows[0]["SDT"] as byte[];
+
+                    string decryptedEmail = OracleHelper.DecryptAES(encryptedEmail);
+                    string decryptedSDT = OracleHelper.DecryptAES(encryptedSDT);
+
+                    MessageBox.Show($"Thông tin đã giải mã:\n\n" +
+                        $"Email: {decryptedEmail}\n" +
+                        $"SĐT: {decryptedSDT}",
+                        "Giải mã AES", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi giải mã: " + ex.Message, "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void dgvKhachHang_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Optional: Load detail when click
         }
     }
 }

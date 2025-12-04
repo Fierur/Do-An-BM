@@ -84,11 +84,83 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database.cs" />
+    <Compile Include="frmAdminDashboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAdminDashboard.Designer.cs">
+      <DependentUpon>frmAdminDashboard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAuditMonitor .cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAuditMonitor .Designer.cs">
+      <DependentUpon>frmAuditMonitor .cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmCheckout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCheckout.Designer.cs">
+      <DependentUpon>frmCheckout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmCustomerDashboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCustomerDashboard.Designer.cs">
+      <DependentUpon>frmCustomerDashboard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmDonHangDetail .cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDonHangDetail .Designer.cs">
+      <DependentUpon>frmDonHangDetail .cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmDonHangManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDonHangManager.Designer.cs">
+      <DependentUpon>frmDonHangManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmGioHang .cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmGioHang .Designer.cs">
+      <DependentUpon>frmGioHang .cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMyOrders .cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMyOrders .Designer.cs">
+      <DependentUpon>frmMyOrders .cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmNhanVienDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmNhanVienDetail.Designer.cs">
+      <DependentUpon>frmNhanVienDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmNhanVienManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmNhanVienManager.Designer.cs">
+      <DependentUpon>frmNhanVienManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmNhaXuatBanManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmNhaXuatBanManager.Designer.cs">
+      <DependentUpon>frmNhaXuatBanManager.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmPhanQuyen.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmPhanQuyen.Designer.cs">
       <DependentUpon>frmPhanQuyen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmProfile .cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmProfile .Designer.cs">
+      <DependentUpon>frmProfile .cs</DependentUpon>
     </Compile>
     <Compile Include="frmQuanLyKhachHang.cs">
       <SubType>Form</SubType>
@@ -96,11 +168,53 @@
     <Compile Include="frmQuanLyKhachHang.Designer.cs">
       <DependentUpon>frmQuanLyKhachHang.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmRegisterKhachHang.cs">
+    <Compile Include="frmRegister.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmRegisterKhachHang.Designer.cs">
-      <DependentUpon>frmRegisterKhachHang.cs</DependentUpon>
+    <Compile Include="frmRegister.Designer.cs">
+      <DependentUpon>frmRegister.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSachCatalog .cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSachCatalog .Designer.cs">
+      <DependentUpon>frmSachCatalog .cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSachDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSachDetail.Designer.cs">
+      <DependentUpon>frmSachDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSachManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSachManager.Designer.cs">
+      <DependentUpon>frmSachManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSettings .cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSettings .Designer.cs">
+      <DependentUpon>frmSettings .cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmStaffDashboard .cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmStaffDashboard .Designer.cs">
+      <DependentUpon>frmStaffDashboard .cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmTacGiaManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTacGiaManager.Designer.cs">
+      <DependentUpon>frmTacGiaManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmTheLoaiManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTheLoaiManager.Designer.cs">
+      <DependentUpon>frmTheLoaiManager.cs</DependentUpon>
     </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
@@ -108,13 +222,15 @@
     <Compile Include="Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
+    <Compile Include="OracleHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SessionManager.cs" />
+    <EmbeddedResource Include="frmCheckout.resx">
+      <DependentUpon>frmCheckout.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmQuanLyKhachHang.resx">
       <DependentUpon>frmQuanLyKhachHang.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmRegisterKhachHang.resx">
-      <DependentUpon>frmRegisterKhachHang.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
@@ -127,6 +243,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Oracle.DataAccess.Common.Configuration.Section.xsd">
       <SubType>Designer</SubType>
@@ -147,6 +264,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\book_default.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
