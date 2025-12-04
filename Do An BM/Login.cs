@@ -100,5 +100,18 @@ namespace Do_An_BM
         {
             txtPass.UseSystemPasswordChar = !cb_pass.Checked;
         }
+
+        private void btnUserLogin_Click(object sender, EventArgs e)
+        {
+            // Kết nối mặc định với BM_USER
+            Database.Set_Database("26.71.28.188", "1521", "orcl", "BM_USER", "Secure123#");
+
+            if (Database.Connect())
+            {
+                this.Hide();
+                new frmUserLogin().ShowDialog();
+                this.Close();
+            }
+        }
     }
 }

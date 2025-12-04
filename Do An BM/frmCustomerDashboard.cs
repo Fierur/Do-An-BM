@@ -93,25 +93,28 @@ namespace Do_An_BM
 
         private void menuDanhMuc_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Chức năng Danh mục sách đang phát triển", "Thông báo");
-            // new frmSachCatalog().ShowDialog();
+            //MessageBox.Show("Chức năng Danh mục sách đang phát triển", "Thông báo");
+            new frmSachCatalog().ShowDialog();
             LoadStatistics();
         }
 
         private void menuGioHang_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Chức năng Giỏ hàng đang phát triển", "Thông báo");
+            //MessageBox.Show("Chức năng Giỏ hàng đang phát triển", "Thông báo");
+            new frmGioHang().ShowDialog();
             LoadStatistics();
         }
 
         private void menuDonHang_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Chức năng Đơn hàng đang phát triển", "Thông báo");
+            //MessageBox.Show("Chức năng Đơn hàng đang phát triển", "Thông báo");
+            new frmDonHangManager().ShowDialog();
         }
 
         private void menuProfile_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Chức năng Thông tin cá nhân đang phát triển", "Thông báo");
+            //MessageBox.Show("Chức năng Thông tin cá nhân đang phát triển", "Thông báo");
+            new frmProfile().ShowDialog();
         }
 
         private void menuLogout_Click(object sender, EventArgs e)

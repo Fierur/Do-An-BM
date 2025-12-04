@@ -41,6 +41,7 @@
             this.txtHost = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.lblLogin = new System.Windows.Forms.Label();
+            this.btnUserLogin = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // cb_pass
@@ -176,12 +177,25 @@
             this.lblLogin.Text = "Login";
             this.lblLogin.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // btnUserLogin
+            // 
+            this.btnUserLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.btnUserLogin.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btnUserLogin.Location = new System.Drawing.Point(271, 245);
+            this.btnUserLogin.Name = "btnUserLogin";
+            this.btnUserLogin.Size = new System.Drawing.Size(101, 28);
+            this.btnUserLogin.TabIndex = 81;
+            this.btnUserLogin.Text = "User Login";
+            this.btnUserLogin.UseVisualStyleBackColor = true;
+            this.btnUserLogin.Click += new System.EventHandler(this.btnUserLogin_Click);
+            // 
             // frmLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 281);
             this.Controls.Add(this.cb_pass);
+            this.Controls.Add(this.btnUserLogin);
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.txtPass);
             this.Controls.Add(this.label6);
@@ -217,6 +231,7 @@
         public System.Windows.Forms.TextBox txtHost;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lblLogin;
+        private System.Windows.Forms.Button btnUserLogin;
     }
 }
 
