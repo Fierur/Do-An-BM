@@ -210,9 +210,11 @@ namespace Do_An_BM
                 return;
             }
 
-            int maDon = Convert.ToInt32(dgvDonHang.SelectedRows[0].Cells["MaDon"].Value);
-            frmDonHangDetail frm = new frmDonHangDetail(maDon);
-            frm.ShowDialog();
+            //int maDon = Convert.ToInt32(dgvDonHang.SelectedRows[0].Cells["MaDon"].Value);
+            //frmDonHangDetail frm = new frmDonHangDetail(maDon);
+            //frm.ShowDialog();
+
+            MessageBox.Show("Chức năng đang được bảo trì!", "Thông báo");
         }
 
         private void btnDecryptPayment_Click(object sender, EventArgs e)
