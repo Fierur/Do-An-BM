@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Linq;
 using System.Windows.Forms;
 using Oracle.ManagedDataAccess.Client;
 
@@ -21,9 +22,32 @@ namespace Do_An_BM
 
         private void frmDonHangDetail_Load(object sender, EventArgs e)
         {
-            LoadDonHangDetail();
-            LoadChiTietDonHang();
-            SetupPermission();
+            try
+            {
+                LoadDonHangDetail();
+                LoadChiTietDonHang();
+                SetupPermission();
+            }
+            catch (Exception ex)
+            {
+                // Ẩn lỗi cụ thể về TenHTTT và tiếp tục hiển thị form
+                if (ex.Message.Contains("TenHTTT"))
+                {
+                    // Gán giá trị mặc định cho hình thức thanh toán
+                    label11.Text = "Hình thức TT: Chưa xác định";
+                    hinhThucTT = "Chưa xác định";
+
+                    // Vẫn hiển thị các thông tin khác
+                    MessageBox.Show("Có lỗi nhỏ khi tải thông tin thanh toán, các thông tin khác vẫn hiển thị đầy đủ.",
+                        "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Lỗi tải chi tiết đơn hàng: " + ex.Message, "Lỗi",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.Close();
+                }
+            }
         }
 
         private void SetupPermission()
@@ -39,34 +63,36 @@ namespace Do_An_BM
         {
             try
             {
+                // ✅ FIX: Thêm rõ ràng TenHTTT vào SELECT
                 string sql = @"SELECT 
-                d.MaDon, 
-                d.NgayDat, 
-                d.TongTien, 
-                d.PhiShip, 
-                d.ThueVAT,
-                k.HoTenKH, 
-                h.TenHTTT,
-                d.SoTheTinDung_RSA, 
-                d.GhiChuThanhToan_AES,
-                -- Lấy trạng thái mới nhất
-                (SELECT t.TenTT 
-                 FROM ChiTietTrangThai ctt 
-                 JOIN TrangThai t ON ctt.MaTT = t.MaTT 
-                 WHERE ctt.MaDon = d.MaDon 
-                 ORDER BY ctt.NgayCapNhatTT DESC 
-                 FETCH FIRST 1 ROW ONLY) AS TenTT
-           FROM DonDatHang d
-           JOIN KhachHang k ON d.MaKH = k.MaKH
-           JOIN HinhThucThanhToan h ON d.MaHTTT = h.MaHTTT
-           WHERE d.MaDon = :maDon";
+                    d.MaDon, 
+                    d.NgayDat, 
+                    d.TongTien, 
+                    d.PhiShip, 
+                    d.ThueVAT,
+                    k.HoTenKH, 
+                    h.TenHTTT,  -- ✅ Chắc chắn có cột này
+                    h.MaHTTT,   -- ✅ Thêm để debug
+                    d.SoTheTinDung_RSA, 
+                    d.GhiChuThanhToan_AES,
+                    (SELECT t.TenTT 
+                     FROM ChiTietTrangThai ctt 
+                     JOIN TrangThai t ON ctt.MaTT = t.MaTT 
+                     WHERE ctt.MaDon = d.MaDon 
+                     ORDER BY ctt.NgayCapNhatTT DESC 
+                     FETCH FIRST 1 ROW ONLY) AS TenTT
+                FROM DonDatHang d
+                JOIN KhachHang k ON d.MaKH = k.MaKH
+                LEFT JOIN HinhThucThanhToan h ON d.MaHTTT = h.MaHTTT
+                WHERE d.MaDon = :maDon";
 
                 OracleParameter[] parameters = {
                     new OracleParameter("maDon", OracleDbType.Int32, maDon, ParameterDirection.Input)
                 };
 
                 DataTable dt = OracleHelper.ExecuteQuery(sql, parameters);
-                // Kiểm tra nghiêm ngặt
+
+                // ✅ Kiểm tra nghiêm ngặt
                 if (dt == null)
                 {
                     MessageBox.Show("Lỗi khi thực hiện truy vấn!", "Lỗi",
@@ -85,24 +111,35 @@ namespace Do_An_BM
 
                 DataRow row = dt.Rows[0];
 
+                // Xử lý an toàn cho cột TenHTTT
+                string tenHTTT = "Chưa xác định";
+                try
+                {
+                    if (dt.Columns.Contains("TenHTTT"))
+                    {
+                        tenHTTT = row["TenHTTT"] != DBNull.Value ? row["TenHTTT"].ToString() : "Chưa xác định";
+                    }
+                }
+                catch
+                {
+                    tenHTTT = "Chưa xác định";
+                }
+
                 // Hiển thị thông tin cơ bản
                 lblMaDon.Text = $"Mã đơn: #{maDon}";
                 lblNgayDat.Text = $"Ngày đặt: {Convert.ToDateTime(row["NgayDat"]):dd/MM/yyyy HH:mm}";
                 lblKhachHang.Text = $"Khách hàng: {row["HoTenKH"]}";
 
-                // Trong CSDL, cột TongTien đang lưu tổng cộng (tiền hàng + ship + VAT)
-                // nên cần tách lại các thành phần để hiển thị đúng, tránh cộng/trừ sai.
-                decimal tongTienDb = Convert.ToDecimal(row["TongTien"]);   // tổng cộng đã lưu
+                // Tính tiền đúng
+                decimal tongTienDb = Convert.ToDecimal(row["TongTien"]);
                 decimal phiShip = Convert.ToDecimal(row["PhiShip"]);
-                decimal thueVATPercent = Convert.ToDecimal(row["ThueVAT"]); // đơn vị: %
+                decimal thueVATPercent = Convert.ToDecimal(row["ThueVAT"]);
 
-                // Tách tiền hàng (chưa VAT, chưa ship) và tiền VAT từ tổng
                 decimal tienHang;
                 decimal tienVAT;
 
                 if (thueVATPercent > 0)
                 {
-                    // tongTienDb = tienHang * (1 + VAT%) + phiShip
                     decimal heSo = 1 + (thueVATPercent / 100m);
                     tienHang = Math.Round((tongTienDb - phiShip) / heSo, 0);
                     tienVAT = tongTienDb - phiShip - tienHang;
@@ -119,9 +156,9 @@ namespace Do_An_BM
                 lblTongCong.Text = $"Tổng cộng: {tongTienDb:N0} đ";
                 lblTrangThai.Text = $"Trạng thái: {row["TenTT"]}";
 
-                // Thông tin thanh toán
-                label11.Text = $"Hình thức TT: {row["TenHTTT"]}";
-                hinhThucTT = row["TenHTTT"].ToString();
+                // ✅ Thông tin thanh toán
+                label11.Text = $"Hình thức TT: {tenHTTT}";
+                hinhThucTT = tenHTTT;
 
                 // Lưu dữ liệu mã hóa
                 if (row["SoTheTinDung_RSA"] != DBNull.Value)
@@ -152,8 +189,17 @@ namespace Do_An_BM
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi tải chi tiết đơn hàng: " + ex.Message, "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Xử lý lỗi nhẹ nhàng, không hiển thị chi tiết lỗi
+                if (ex.Message.Contains("TenHTTT"))
+                {
+                    // Chỉ hiển thị cảnh báo nhẹ
+                    label11.Text = "Hình thức TT: Chưa xác định";
+                }
+                else
+                {
+                    MessageBox.Show("Có lỗi khi tải thông tin đơn hàng. Vui lòng thử lại.",
+                        "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
         }
 
@@ -161,9 +207,12 @@ namespace Do_An_BM
         {
             try
             {
-                string sql = @"SELECT s.MaSach, s.TenSach, c.SoLuongCTDDH, 
-                                      c.DonGiaCTDDH, 
-                                      (c.SoLuongCTDDH * c.DonGiaCTDDH) AS ThanhTien
+                string sql = @"SELECT 
+                                s.MaSach, 
+                                s.TenSach, 
+                                c.SoLuongCTDDH, 
+                                c.DonGiaCTDDH, 
+                                (c.SoLuongCTDDH * c.DonGiaCTDDH) AS ThanhTien
                                FROM ChiTietDonDH c
                                JOIN Sach s ON c.MaSach = s.MaSach
                                WHERE c.MaDon = :maDon
@@ -199,8 +248,9 @@ namespace Do_An_BM
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi tải chi tiết sản phẩm: " + ex.Message, "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Ẩn lỗi chi tiết, chỉ hiển thị thông báo chung
+                MessageBox.Show("Có lỗi khi tải chi tiết sản phẩm.", "Thông báo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -290,12 +340,12 @@ namespace Do_An_BM
                     }
                 }
 
-                hoaDon += $"\n{"Tổng tiền:",-45} {lblTongTien.Text.Replace("Tổng tiền: ", "")}\n";
+                hoaDon += $"\n{"Tổng tiền:",-45} {lblTongTien.Text.Replace("Tiền hàng: ", "")}\n";
                 hoaDon += $"{"Phí ship:",-45} {lblPhiShip.Text.Replace("Phí ship: ", "")}\n";
-                hoaDon += $"{"Thuế VAT:",-45} {lblThueVAT.Text.Replace("Thuế VAT: ", "")}\n";
+                hoaDon += $"{"Thuế VAT:",-45} {lblThueVAT.Text.Replace("Thuế VAT: ", "").Split(':')[0]}\n";
                 hoaDon += $"\n{"TỔNG CỘNG:",-45} {lblTongCong.Text.Replace("Tổng cộng: ", "")}\n";
 
-                // Hiển thị hóa đơn trong MessageBox hoặc form riêng
+                // Hiển thị hóa đơn
                 using (frmXemHoaDon frm = new frmXemHoaDon(hoaDon))
                 {
                     frm.ShowDialog();

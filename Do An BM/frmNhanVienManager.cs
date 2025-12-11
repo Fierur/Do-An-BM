@@ -77,13 +77,21 @@ namespace Do_An_BM
                                  OR MaNV = :manv
                               ORDER BY MaNV DESC";
 
-                var param = new OracleParameter("keyword", OracleDbType.Varchar2, "%" + keyword + "%", ParameterDirection.Input);
+                var paramList = new System.Collections.Generic.List<OracleParameter>();
+                paramList.Add(new OracleParameter("keyword", OracleDbType.Varchar2,
+                    "%" + keyword + "%", ParameterDirection.Input));
 
-                int maNV = 0;
-                int.TryParse(keyword, out maNV);
-                var param2 = new OracleParameter("manv", OracleDbType.Int32, maNV, ParameterDirection.Input);
+                int maNV;
+                if (int.TryParse(keyword, out maNV))
+                {
+                    sql += " OR MaNV = :manv";
+                    paramList.Add(new OracleParameter("manv", OracleDbType.Int32,
+                        maNV, ParameterDirection.Input));
+                }
 
-                DataTable dt = OracleHelper.ExecuteQuery(sql, param, param2);
+                sql += " ORDER BY MaNV DESC";
+
+                DataTable dt = OracleHelper.ExecuteQuery(sql, paramList.ToArray());
                 if (dt != null)
                 {
                     dgvNhanVien.DataSource = dt;

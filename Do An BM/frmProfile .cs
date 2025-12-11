@@ -22,6 +22,18 @@ namespace Do_An_BM
                 return;
             }
 
+            //Thêm event cho checkbox
+            cbHienMatKhau.CheckedChanged += (s, ev) => {
+                txtMatKhauCu.UseSystemPasswordChar = !cbHienMatKhau.Checked;
+                txtMatKhauMoi.UseSystemPasswordChar = !cbHienMatKhau.Checked;
+                txtXacNhanMK.UseSystemPasswordChar = !cbHienMatKhau.Checked;
+            };
+
+            // Set mặc định ẩn mật khẩu
+            txtMatKhauCu.UseSystemPasswordChar = true;
+            txtMatKhauMoi.UseSystemPasswordChar = true;
+            txtXacNhanMK.UseSystemPasswordChar = true;
+
             LoadProfile();
             LoadDiaChi();
         }

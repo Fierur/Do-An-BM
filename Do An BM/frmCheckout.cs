@@ -270,18 +270,20 @@ namespace Do_An_BM
                 if (string.IsNullOrEmpty(txtHoTenNN.Text))
                 {
                     MessageBox.Show("Vui lòng nhập họ tên người nhận!", "Cảnh báo");
+                    txtHoTenNN.Focus();
                     return;
                 }
 
-                if (cboXaPhuong.SelectedIndex < 0)
+                if (string.IsNullOrEmpty(txtSoNha.Text))
+                {
+                    MessageBox.Show("Vui lòng nhập số nhà!", "Cảnh báo");
+                    txtSoNha.Focus();
+                    return;
+                }
+
+                if (cboThanhPho.SelectedIndex < 0 || cboQuanHuyen.SelectedIndex < 0 || cboXaPhuong.SelectedIndex < 0)
                 {
                     MessageBox.Show("Vui lòng chọn đầy đủ địa chỉ giao hàng!", "Cảnh báo");
-                    return;
-                }
-
-                if (tongTienGioHang <= 0)
-                {
-                    MessageBox.Show("Giỏ hàng trống!", "Cảnh báo");
                     return;
                 }
 

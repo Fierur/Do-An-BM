@@ -248,12 +248,25 @@
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.txtMatKhauCu);
             this.groupBox2.Controls.Add(this.label7);
+            this.groupBox2.Controls.Add(this.cbHienMatKhau);
             this.groupBox2.Location = new System.Drawing.Point(20, 20);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(850, 250);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Đổi mật khẩu";
+            //
+            // cbHienMatKhau
+            //
+            this.cbHienMatKhau = new System.Windows.Forms.CheckBox();
+            this.cbHienMatKhau.AutoSize = true;
+            this.cbHienMatKhau.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.cbHienMatKhau.Location = new System.Drawing.Point(150, 160);
+            this.cbHienMatKhau.Name = "cbHienMatKhau";
+            this.cbHienMatKhau.Size = new System.Drawing.Size(117, 21);
+            this.cbHienMatKhau.TabIndex = 7;
+            this.cbHienMatKhau.Text = "Hiện mật khẩu";
+            this.cbHienMatKhau.UseVisualStyleBackColor = true;
             // 
             // btnDoiMatKhau
             // 
@@ -465,5 +478,7 @@
         private System.Windows.Forms.Button btnSuaDC;
         private System.Windows.Forms.DataGridView dgvDiaChi;
         private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.CheckBox cbHienMatKhau;
+
     }
 }

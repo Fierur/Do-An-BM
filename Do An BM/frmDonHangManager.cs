@@ -21,8 +21,7 @@ namespace Do_An_BM
             if (SessionManager.IsCustomer())
             {
                 // Khách hàng: chỉ xem đơn của chính mình (VPD đã lọc ở DB)
-                // Ẩn / vô hiệu các chức năng quản trị
-                lblTitle.Text = "ĐƠN HÀNG CỦA BẠN";
+                lblTitle.Text = "ĐỌN HÀNG CỦA BẠN";
 
                 btnDecryptPayment.Visible = false;
                 btnUpdateStatus.Visible = false;
@@ -34,7 +33,6 @@ namespace Do_An_BM
 
                 groupBox1.Visible = false; // nhóm lọc trạng thái + khoảng ngày
 
-                // Chỉnh cảnh báo cho thân thiện hơn với khách hàng
                 lblWarning.Text = "Thông tin thanh toán của bạn được mã hóa an toàn (AES-256 & RSA-2048).";
             }
             else
@@ -82,16 +80,24 @@ namespace Do_An_BM
         {
             try
             {
-                string sql = @"SELECT d.MaDon, d.NgayDat, k.HoTenKH, d.TongTien, d.PhiShip, d.ThueVAT,
-                              h.TenHTTT, 
-                              (SELECT TenTT FROM BM_USER.TrangThai t 
-                               JOIN BM_USER.ChiTietTrangThai ct ON t.MaTT = ct.MaTT 
-                               WHERE ct.MaDon = d.MaDon 
-                               ORDER BY ct.NgayCapNhatTT DESC 
-                               FETCH FIRST 1 ROW ONLY) AS TrangThaiHienTai
+                // ✅ FIX: Thêm TenHTTT vào SELECT
+                string sql = @"SELECT 
+                                  d.MaDon, 
+                                  d.NgayDat, 
+                                  k.HoTenKH, 
+                                  d.TongTien, 
+                                  d.PhiShip, 
+                                  d.ThueVAT,
+                                  h.TenHTTT,  -- ✅ THÊM dòng này
+                                  (SELECT TenTT 
+                                   FROM BM_USER.TrangThai t 
+                                   JOIN BM_USER.ChiTietTrangThai ct ON t.MaTT = ct.MaTT 
+                                   WHERE ct.MaDon = d.MaDon 
+                                   ORDER BY ct.NgayCapNhatTT DESC 
+                                   FETCH FIRST 1 ROW ONLY) AS TrangThaiHienTai
                               FROM BM_USER.DonDatHang d
                               JOIN BM_USER.KhachHang k ON d.MaKH = k.MaKH
-                              LEFT JOIN BM_USER.HinhThucThanhToan h ON d.MaHTTT = h.MaHTTT
+                              LEFT JOIN BM_USER.HinhThucThanhToan h ON d.MaHTTT = h.MaHTTT  -- ✅ THÊM JOIN
                               {0}
                               ORDER BY d.NgayDat DESC";
 
@@ -99,8 +105,7 @@ namespace Do_An_BM
 
                 if (SessionManager.IsCustomer())
                 {
-                    // Khách hàng: chỉ xem đơn của chính mình (thêm WHERE MaKH = :makh,
-                    // ngoài ra VPD ở DB cũng đã lọc theo context)
+                    // Khách hàng: chỉ xem đơn của chính mình
                     string whereClause = "WHERE d.MaKH = :makh";
                     string finalSql = string.Format(sql, whereClause);
 
@@ -119,6 +124,8 @@ namespace Do_An_BM
                 if (dt != null)
                 {
                     dgvDonHang.DataSource = dt;
+
+                    // ✅ Đổi tên cột hiển thị
                     dgvDonHang.Columns["MaDon"].HeaderText = "Mã đơn";
                     dgvDonHang.Columns["NgayDat"].HeaderText = "Ngày đặt";
                     dgvDonHang.Columns["HoTenKH"].HeaderText = "Khách hàng";
@@ -127,6 +134,10 @@ namespace Do_An_BM
                     dgvDonHang.Columns["ThueVAT"].HeaderText = "VAT (%)";
                     dgvDonHang.Columns["TenHTTT"].HeaderText = "Hình thức TT";
                     dgvDonHang.Columns["TrangThaiHienTai"].HeaderText = "Trạng thái";
+
+                    // ✅ Format tiền
+                    dgvDonHang.Columns["TongTien"].DefaultCellStyle.Format = "N0";
+                    dgvDonHang.Columns["PhiShip"].DefaultCellStyle.Format = "N0";
                 }
             }
             catch (Exception ex)
@@ -154,16 +165,24 @@ namespace Do_An_BM
 
             try
             {
-                string sql = @"SELECT d.MaDon, d.NgayDat, k.HoTenKH, d.TongTien, d.PhiShip, d.ThueVAT,
-                              h.TenHTTT,
-                              (SELECT TenTT FROM BM_USER.TrangThai t 
-                               JOIN BM_USER.ChiTietTrangThai ct ON t.MaTT = ct.MaTT 
-                               WHERE ct.MaDon = d.MaDon 
-                               ORDER BY ct.NgayCapNhatTT DESC 
-                               FETCH FIRST 1 ROW ONLY) AS TrangThaiHienTai
+                // ✅ FIX: Thêm TenHTTT vào SELECT
+                string sql = @"SELECT 
+                                  d.MaDon, 
+                                  d.NgayDat, 
+                                  k.HoTenKH, 
+                                  d.TongTien, 
+                                  d.PhiShip, 
+                                  d.ThueVAT,
+                                  h.TenHTTT,  -- ✅ THÊM
+                                  (SELECT TenTT 
+                                   FROM BM_USER.TrangThai t 
+                                   JOIN BM_USER.ChiTietTrangThai ct ON t.MaTT = ct.MaTT 
+                                   WHERE ct.MaDon = d.MaDon 
+                                   ORDER BY ct.NgayCapNhatTT DESC 
+                                   FETCH FIRST 1 ROW ONLY) AS TrangThaiHienTai
                               FROM BM_USER.DonDatHang d
                               JOIN BM_USER.KhachHang k ON d.MaKH = k.MaKH
-                              LEFT JOIN BM_USER.HinhThucThanhToan h ON d.MaHTTT = h.MaHTTT
+                              LEFT JOIN BM_USER.HinhThucThanhToan h ON d.MaHTTT = h.MaHTTT  -- ✅ THÊM
                               WHERE {0}
                               ORDER BY d.NgayDat DESC";
 
@@ -241,13 +260,22 @@ namespace Do_An_BM
                 LoadDonHang();
                 return;
             }
+
             try
             {
-                string sql = @"SELECT d.MaDon, d.NgayDat, k.HoTenKH, d.TongTien, d.PhiShip, d.ThueVAT,
-                                      h.TenHTTT, t.TenTT AS TrangThaiHienTai
+                // ✅ FIX: Thêm TenHTTT
+                string sql = @"SELECT 
+                                   d.MaDon, 
+                                   d.NgayDat, 
+                                   k.HoTenKH, 
+                                   d.TongTien, 
+                                   d.PhiShip, 
+                                   d.ThueVAT,
+                                   h.TenHTTT,  -- ✅ THÊM
+                                   t.TenTT AS TrangThaiHienTai
                                FROM BM_USER.DonDatHang d
                                JOIN BM_USER.KhachHang k ON d.MaKH = k.MaKH
-                               LEFT JOIN BM_USER.HinhThucThanhToan h ON d.MaHTTT = h.MaHTTT
+                               LEFT JOIN BM_USER.HinhThucThanhToan h ON d.MaHTTT = h.MaHTTT  -- ✅ THÊM
                                JOIN BM_USER.ChiTietTrangThai ct ON d.MaDon = ct.MaDon
                                JOIN BM_USER.TrangThai t ON ct.MaTT = t.MaTT
                                WHERE ct.MaTT = :matt
@@ -289,6 +317,7 @@ namespace Do_An_BM
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         private void btnViewDetail_Click(object sender, EventArgs e)
         {
             if (dgvDonHang.SelectedRows.Count == 0)
@@ -298,11 +327,17 @@ namespace Do_An_BM
                 return;
             }
 
-            int maDon = Convert.ToInt32(dgvDonHang.SelectedRows[0].Cells["MaDon"].Value);
-            frmDonHangDetail frm = new frmDonHangDetail(maDon);
-            frm.ShowDialog();
-
-            //MessageBox.Show("Chức năng đang được bảo trì!", "Thông báo");
+            try
+            {
+                int maDon = Convert.ToInt32(dgvDonHang.SelectedRows[0].Cells["MaDon"].Value);
+                frmDonHangDetail frm = new frmDonHangDetail(maDon);
+                frm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi mở chi tiết: " + ex.Message, "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnDecryptPayment_Click(object sender, EventArgs e)

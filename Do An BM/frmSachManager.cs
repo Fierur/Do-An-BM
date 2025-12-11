@@ -166,7 +166,11 @@ namespace Do_An_BM
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            new frmSachDetail().ShowDialog();
+            frmSachDetail frm = new frmSachDetail();
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                LoadSach();
+            }
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
@@ -178,7 +182,12 @@ namespace Do_An_BM
                 return;
             }
 
-            new frmSachDetail().ShowDialog();
+            int maSach = Convert.ToInt32(dgvSach.SelectedRows[0].Cells["MaSach"].Value);
+            frmSachDetail frm = new frmSachDetail(maSach);
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                LoadSach();
+            }
         }
 
         private void btnDelete_Click(object sender, EventArgs e)

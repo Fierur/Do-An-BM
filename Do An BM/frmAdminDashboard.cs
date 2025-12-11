@@ -28,6 +28,10 @@ namespace Do_An_BM
 
             // Load dashboard statistics
             LoadDashboardStats();
+
+            timer1.Interval = 1000; // 1 giây
+            timer1.Tick += timer1_Tick;
+            timer1.Start();
         }
 
         private void LoadDashboardStats()
