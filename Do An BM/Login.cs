@@ -71,7 +71,7 @@ namespace Do_An_BM
 
         private void frmLogin_Load(object sender, EventArgs e)
         {
-            txtHost.Text = "26.71.28.188";
+            txtHost.Text = "localhost";
             txtPort.Text = "1521";
             txtSid.Text = "orcl";
             txtUser.Text = "BM_USER";
@@ -104,7 +104,7 @@ namespace Do_An_BM
         private void btnUserLogin_Click(object sender, EventArgs e)
         {
             // Kết nối mặc định với BM_USER
-            Database.Set_Database("26.71.28.188", "1521", "orcl", "BM_USER", "Secure123#");
+            Database.Set_Database("localhost", "1521", "orcl", "BM_USER", "Secure123#");
 
             if (Database.Connect())
             {
